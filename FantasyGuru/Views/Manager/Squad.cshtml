@@ -1,0 +1,54 @@
+﻿@model FantasyGuru.Models.Manager
+@{
+    ViewBag.Title = "Squad";
+    Layout = null;
+}
+
+<script>
+    function goToLeague() {
+        var leagueId = document.getElementById("league").value;
+
+        window.location.href = "/Manager/League/" + leagueId;
+    }
+    </script>
+
+
+<h2>Squad</h2>
+<h1>@Model.player_first_name @Model.player_last_name</h1>
+
+<h3>
+    Total points:@if (Model.summary_overall_points == null)
+    {
+        var points = 0;
+        @points;
+    }
+    else
+
+    {
+        @Model.summary_overall_points;
+    }
+</h3>
+
+
+<p>My team</p>
+@foreach (var player in Model.Team)
+{
+    <p>@player.first_name, @player.second_name, @player.is_captain, @player.position, @player.total_points,@player.element_type</p>
+
+}
+<h3>Select League</h3>
+
+@using (Html.BeginForm("League", "Manager", FormMethod.Get))
+{
+    <select id="league" name="id" onchange="goToLeague()">
+        @foreach (var liga in Model.leagues.classic)
+        {
+
+            <option value="@liga.Id">
+                @liga.Name
+            </option>
+
+        }
+    </select>
+   }
+    

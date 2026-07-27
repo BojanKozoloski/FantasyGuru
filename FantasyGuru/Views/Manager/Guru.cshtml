@@ -1,0 +1,60 @@
+﻿@model FantasyGuru.Models.Manager
+@{
+    ViewBag.Title = "Guru";
+    Layout = null;
+}
+<style>
+
+    .bojan {
+        font-size: 80px;
+        color: white;
+        font-style: oblique;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        margin: 0;
+    }
+
+    main {
+        color: black;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+    }
+
+    .container {
+        width: 500px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+</style>
+
+<body>
+    
+
+    <h1 class="bojan">FantasyGuru</h1>
+    <div class="container">
+        <h1 class="justify-content-center">FantasyGuru!</h1>
+        <p>Enter your FPLID</p>
+        @using (Html.BeginForm("Squad", "Manager", FormMethod.Get))
+        {
+            <button class="accordion" type="submit">Manager number:</button>
+            <input type="number" name="id" />
+        }
+        </div>
+
+</body>
+
+
+
+
+
+
