@@ -33,13 +33,15 @@ namespace FantasyGuru.Controllers
             
             return View();
         }
-        public ActionResult League(int id)
+        public ActionResult LeagueC(int managerId, int leagueIndex)
         {
-            FPLTeam fpl = new FPLTeam();
+            FPLTeam team = new FPLTeam();
 
-            Manager manager = fpl.GetManager(id);
+            Manager manager = team.GetManager(managerId);
 
-            return View(manager);
+            League league = manager.leagues.classic.ElementAt(leagueIndex);
+
+            return View(league);
 
         }
     }

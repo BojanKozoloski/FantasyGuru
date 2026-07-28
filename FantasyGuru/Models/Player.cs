@@ -21,6 +21,8 @@ namespace FantasyGuru.Models
         public int position { get; set; } // starting order/bench 1-11 start,12-15 bench
 
 
+        public int element { get; set; }
+
         public bool is_captain { get; set; }
 
     }

@@ -129,8 +129,6 @@
     <Compile Include="Models\League.cs" />
     <Compile Include="Models\Leagues.cs" />
     <Compile Include="Models\Manager.cs" />
-    <Compile Include="Models\Pick.cs" />
-    <Compile Include="Models\PickR.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FPLTeam.cs" />
@@ -188,7 +186,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manager\Squad.cshtml" />
     <Content Include="Views\Manager\Guru.cshtml" />
-    <Content Include="Views\Manager\League.cshtml" />
+    <Content Include="Views\Manager\LeagueC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

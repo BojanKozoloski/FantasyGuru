@@ -35,25 +35,25 @@ namespace FantasyGuru.Services
 
             //PickR squad = JsonConvert.DeserializeObject<PickR>(response);
 
-            PickR squad = new PickR();
+            Manager squad = new Manager();
 
-            squad.picks = new List<Pick>();
+            squad.Team = new List<Player>();
 
-            squad.picks.Add(new Pick { element = 350 }); 
-            squad.picks.Add(new Pick { element = 200 }); 
-            squad.picks.Add(new Pick { element = 388 }); 
-            squad.picks.Add(new Pick { element = 229 });
-            squad.picks.Add(new Pick { element = 389 });
-            squad.picks.Add(new Pick { element = 452 });
-            squad.picks.Add(new Pick { element = 40 });
-            squad.picks.Add(new Pick { element = 12 });
-            squad.picks.Add(new Pick { element = 368 });
-            squad.picks.Add(new Pick { element = 55 });
-            squad.picks.Add(new Pick { element = 119 });
-            squad.picks.Add(new Pick { element = 25 });
-            squad.picks.Add(new Pick { element = 398 });
-            squad.picks.Add(new Pick { element = 273 });
-            squad.picks.Add(new Pick { element = 142 });
+            squad.Team.Add(new Player { element = 350 }); 
+            squad.Team.Add(new Player { element = 200 }); 
+            squad.Team.Add(new Player { element = 388 }); 
+            squad.Team.Add(new Player { element = 229 });
+            squad.Team.Add(new Player { element = 389 });
+            squad.Team.Add(new Player { element = 452 });
+            squad.Team.Add(new Player { element = 40 });
+            squad.Team.Add(new Player { element = 12 });
+            squad.Team.Add(new Player { element = 368 });
+            squad.Team.Add(new Player { element = 55 });
+            squad.Team.Add(new Player { element = 119 });
+            squad.Team.Add(new Player { element = 25 });
+            squad.Team.Add(new Player { element = 398 });
+            squad.Team.Add(new Player { element = 273 });
+            squad.Team.Add(new Player { element = 142 });
 
             string playerUrl = "https://fantasy.premierleague.com/api/bootstrap-static/";
 
@@ -61,7 +61,7 @@ namespace FantasyGuru.Services
 
             Bootstrap allplayers= JsonConvert.DeserializeObject<Bootstrap>(playerid);
 
-            foreach (Pick pick in squad.picks)
+            foreach (Player pick in squad.Team)
             {
 
                 foreach (Player player in allplayers.elements)
