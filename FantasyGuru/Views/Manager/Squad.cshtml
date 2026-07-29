@@ -9,6 +9,8 @@ function goToLeague() {
     var leagueIndex = document.getElementById("league").value;
     var managerId = @Model.Id;
 
+    
+
     window.location.href =
         "/Manager/LeagueC?managerId=" + managerId +
         "&leagueIndex=" + leagueIndex;
@@ -44,18 +46,22 @@ function goToLeague() {
 @using (Html.BeginForm("League", "Manager", FormMethod.Get))
 {
     <select id="league" name="id" onchange="goToLeague()">
-        @{ 
+
+        <option value="" selected disabled>
+            Choose a league
+        </option>
+        @{
             int i = 0;
-        foreach (var liga in Model.leagues.classic)
-        {
+            foreach (var liga in Model.leagues.classic)
+            {
 
-            <option value="@i" >
-                @liga.Name
-            </option>
-            i++;
+                <option value="@i">
+                    @liga.Name
+                </option>
+                i++;
 
-        }
             }
+        }
     </select>
    }
     
