@@ -3,7 +3,22 @@
     ViewBag.Title = "Squad";
     Layout = null;
 }
+<style>
+    .Box {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 50px;
+    }
 
+    .Team {
+        width: 60%;
+    }
+
+    .Choose {
+        width: 30%;
+    }
+</style>
 <script>
 function goToLeague() {
     var leagueIndex = document.getElementById("league").value;
@@ -34,34 +49,66 @@ function goToLeague() {
     }
 </h3>
 
-
-<p>My team</p>
-@foreach (var player in Model.Team)
-{
-    <p>@player.first_name, @player.second_name, @player.is_captain, @player.position, @player.total_points,@player.element_type</p>
-
-}
-<h3>Select League</h3>
-
-@using (Html.BeginForm("League", "Manager", FormMethod.Get))
-{
-    <select id="league" name="id" onchange="goToLeague()">
-
-        <option value="" selected disabled>
-            Choose a league
-        </option>
-        @{
-            int i = 0;
-            foreach (var liga in Model.leagues.classic)
+<div class="Box">
+    <div class="Team">
+        <p>My team</p>
+        @foreach (var group in Model.Team.GroupBy(player => player.element_type))
+        {
+            if (group.Key == 1)
             {
+                <h3>Goalkeepers:</h3>
+            }
+            else if (group.Key == 2)
+            {
+                <h3>Defenders:</h3>
+            }
+            else if (group.Key == 3)
+            {
+                <h3>Midfielders:</h3>
+            }
+            else if (group.Key == 4)
+            {
+                <h3>Attackers:</h3>
+            }
 
-                <option value="@i">
-                    @liga.Name
-                </option>
-                i++;
+            <hr />
 
+            foreach (var player in group)
+            {
+                <p>
+                    @player.web_name,
+                    @player.is_captain,
+                    @player.position,
+                    @player.total_points
+                </p>
             }
         }
-    </select>
-   }
+    </div>
     
+    <div class="Choose">
+        <h3>Select League</h3>
+        @using (Html.BeginForm("League", "Manager", FormMethod.Get))
+        {
+            <select id="league" name="id" onchange="goToLeague()">
+
+                <option value="" selected disabled>
+                    Choose a league
+                </option>
+                @{
+                    int i = 0;
+                    foreach (var liga in Model.leagues.classic)
+                    {
+
+                        <option value="@i">
+                            @liga.Name
+                        </option>
+                        i++;
+
+                    }
+                }
+            </select>
+        }
+
+    </div>
+
+</div>

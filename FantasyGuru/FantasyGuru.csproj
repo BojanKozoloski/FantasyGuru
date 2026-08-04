@@ -125,10 +125,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Bootstrap.cs" />
+    <Compile Include="Models\Compare.cs" />
     <Compile Include="Models\League.cs" />
     <Compile Include="Models\Leagues.cs" />
+    <Compile Include="Models\LeagueStandings.cs" />
     <Compile Include="Models\Manager.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\StandingsResult.cs" />
+    <Compile Include="Models\StandingsTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FPLTeam.cs" />
   </ItemGroup>
@@ -183,6 +187,7 @@
     <Content Include="Views\Manager\Squad.cshtml" />
     <Content Include="Views\Manager\Guru.cshtml" />
     <Content Include="Views\Manager\LeagueC.cshtml" />
+    <Content Include="Views\Manager\Compare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

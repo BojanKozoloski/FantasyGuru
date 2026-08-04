@@ -41,8 +41,33 @@ namespace FantasyGuru.Controllers
 
             League league = manager.leagues.classic.ElementAt(leagueIndex);
 
-            return View(league);
+            //LeagueStandings standings = team.GetLeagueStandings(league.Id);
+            LeagueStandings standings = team.GetLeagueStandingsFake(league.Id,league.Name);
 
+            ViewBag.ManagerId = managerId;
+
+            return View(standings);
+
+        }
+        public ActionResult Compare(int myid,int oppid)
+        {
+            FPLTeam fpl = new FPLTeam();
+
+            Manager me = fpl.GetManager(myid);
+            me.Team = fpl.GetSquad(myid);
+
+            Manager opp = fpl.GetManager(oppid);
+            opp.Team = fpl.GetSquad(oppid);
+
+            Compare cmp = new Compare();
+
+            cmp.Me = me;
+            cmp.Opponent = opp;
+
+            cmp.MyUniquePlayers = me.Team.Where(p => !opp.Team.Any(o => o.id == p.id)).ToList();
+            cmp.OpponentUniquePlayers = opp.Team.Where(p => !me.Team.Any(o => o.id == p.id)).ToList();
+
+            return View(cmp);
         }
     }
 }

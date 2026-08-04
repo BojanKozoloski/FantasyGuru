@@ -15,6 +15,7 @@ namespace FantasyGuru.Models
 
         public int? total_points { get; set; }
 
+        public string web_name { get; set; }    
 
         public int element_type { get; set; } // GK:1, DEF:2, MID:3, FWD:4
 

@@ -1,0 +1,58 @@
+﻿@model FantasyGuru.Models.Compare
+@{
+    ViewBag.Title = "Compare";
+    Layout = null;
+}
+
+<h2>Compare</h2>
+
+<div>
+    Your team:
+    @Model.Me.player_first_name
+    @if (Model.Me.summary_overall_points == null)
+    {
+        var points = 0;
+        @points;
+    }
+    else
+    {
+        @Model.Me.summary_overall_points;
+    }
+    
+</div>
+
+
+<div>
+    Opponent team:
+    @Model.Opponent.player_first_name
+    @if (Model.Opponent.summary_overall_points == null)
+    {
+        var points = 0;
+        @points;
+    }
+    else
+
+    {
+        @Model.Opponent.summary_overall_points;
+    }
+</div>
+
+<div>
+    <h3>Your different players:</h3>
+    <ul>
+        @foreach (var p in Model.MyUniquePlayers)
+        {
+            <li>@p.web_name</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Opponent different players:</h3>
+    <ul>
+        @foreach (var p in Model.OpponentUniquePlayers)
+        {
+            <li>@p.web_name </li>
+        }
+    </ul>
+</div>
