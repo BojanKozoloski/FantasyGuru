@@ -3,56 +3,187 @@
     ViewBag.Title = "Compare";
     Layout = null;
 }
+<style>
 
-<h2>Compare</h2>
-
-<div>
-    Your team:
-    @Model.Me.player_first_name
-    @if (Model.Me.summary_overall_points == null)
-    {
-        var points = 0;
-        @points;
+    body {
+        background-image: url('/Images/FantasyGurupitch.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
-    else
-    {
-        @Model.Me.summary_overall_points;
+
+    .pitch {
+        position: relative;
+        width: 82vw;
+        height: 90vh;
+        margin: 20px auto;
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
     }
-    
-</div>
 
-
-<div>
-    Opponent team:
-    @Model.Opponent.player_first_name
-    @if (Model.Opponent.summary_overall_points == null)
-    {
-        var points = 0;
-        @points;
+    .pitch-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: white;
+        font-weight: bold;
     }
-    else
 
-    {
-        @Model.Opponent.summary_overall_points;
+    .team {
+        position: absolute;
+        top: 40px;
+        width: 50%;
+        height: calc(100% - 40px);
     }
-</div>
 
-<div>
-    <h3>Your different players:</h3>
-    <ul>
-        @foreach (var p in Model.MyUniquePlayers)
+
+    /* Your team is on the LEFT */
+    .my-team {
+        left: 0;
+    }
+
+
+    /* Opponent is on the RIGHT */
+    .opponent-team {
+        right: 0;
+    }
+
+
+    /* Every player */
+    .player {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        width: 80px;
+    }
+
+
+
+    .my-team .position-1 {
+        left: 7%;
+    }
+
+
+    /* DEF */
+    .my-team .position-2 {
+        left: 27%;
+    }
+
+
+    /* MID */
+    .my-team .position-3 {
+        left: 48%;
+    }
+
+
+    /* FWD */
+    .my-team .position-4 {
+        left: 68%;
+    }
+    /* GK */
+    .opponent-team .position-1 {
+        left: 93%;
+    }
+
+
+    /* DEF */
+    .opponent-team .position-2 {
+        left: 73%;
+    }
+
+
+    /* MID */
+    .opponent-team .position-3 {
+        left: 52%;
+    }
+
+
+    /* FWD */
+    .opponent-team .position-4 {
+        left: 32%;
+    }
+</style>
+
+
+<div class="pitch-header">
+    <div>
+        Your team:
+        @Model.Me.player_first_name
+        @if (Model.Me.summary_overall_points == null)
         {
-            <li>@p.web_name</li>
+            var points = 0;
+            @points;
         }
-    </ul>
+        else
+        {
+            @Model.Me.summary_overall_points;
+        }
+
+    </div>
+
+
+    <div>
+        Opponent team:
+        @Model.Opponent.player_first_name
+        @if (Model.Opponent.summary_overall_points == null)
+        {
+            var points = 0;
+            @points;
+        }
+        else
+
+        {
+            @Model.Opponent.summary_overall_points;
+        }
+    </div>
+
 </div>
 
-<div>
-    <h3>Opponent different players:</h3>
-    <ul>
-        @foreach (var p in Model.OpponentUniquePlayers)
-        {
-            <li>@p.web_name </li>
+
+<div class="pitch">
+    <div class="team my-team">
+        <h3>Your different players:</h3>
+        @{
+            var myGroups = Model.MyUniquePlayers.GroupBy(p => p.element_type);
         }
-    </ul>
+        @foreach (var group in myGroups)
+        {
+            var playersInRow = group.ToList();
+            var count = playersInRow.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var p = playersInRow[i];
+                double topPercent = (100.0 / (count + 1)) * (i + 1);
+                <div class="player position-@p.element_type" style="top:@topPercent%">
+                    <div class="player-circle"></div>
+                    <span>@p.web_name</span>
+                </div>
+            }
+        }
+    </div>
+    <div class="team opponent-team">
+        <h3>Opponent different players:</h3>
+        @{
+            var oppGroups = Model.OpponentUniquePlayers.GroupBy(p => p.element_type);
+        }
+        @foreach (var group in oppGroups)
+        {
+            var playersInRow = group.ToList();
+            var count = playersInRow.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var p = playersInRow[i];
+                double topPercent = (100.0 / (count + 1)) * (i + 1);
+                <div class="player position-@p.element_type" style="top:@topPercent%">
+                    <div class="player-circle"></div>
+                    <span>@p.web_name</span>
+                </div>
+            }
+        }
+    </div>
 </div>

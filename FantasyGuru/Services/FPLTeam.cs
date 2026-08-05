@@ -43,7 +43,7 @@ namespace FantasyGuru.Services
             }
             else 
             {
-                elementIds = new List<int> { 350, 200, 388, 229, 389, 452, 40, 12, 368, 55, 411, 25, 398, 273, 142 };
+                elementIds = new List<int> { 109, 200, 388, 229, 389, 452, 40, 12, 368, 55, 411, 25, 398, 273, 142 };
             }
 
             Manager squad = new Manager();
