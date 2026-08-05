@@ -6,71 +6,127 @@
 
 <style>
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #0A3099;
-        color: #999;
-        font-family: Arial, sans-serif;
-    }
-
-    thead {
-        background-color: #061D5E;
-    }
-
-    th {
-        color: #00b86b;
-        text-transform: uppercase;
-        font-weight: 500;
-        text-align: left;
-        padding: 18px 36px;
-    }
-
-    td {
-        padding: 14px 36px;
-        border: none;
-        color: #999;
-    }
-
-    tr {
-        border: none;
-    }
-    .container::-webkit-scrollbar {
-        width: 9px;
-    }
-    .container::-webkit-scrollbar-track {
-        background: #333;
-    }
-    .container::-webkit-scrollbar-thumb {
-        background: #00b86b;
-        border-radius: 10px;
-    }
-    .container {
-        max-height: 580px;
-        overflow-y: auto;
-        border-radius: 10px;
-    }
-    .compare
-    {
-        color: black;
-    }
     body {
+        margin: 0;
         background-image: url('/Images/FantasyGurupitch.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        font-family: Arial, sans-serif;
+    }
+    /* League title */
+
+    h2, h1 {
+        color: white;
+        text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    /* Table container */
+
+    .container {
+        width: 75%;
+        max-width: 900px;
+        max-height: 580px;
+        margin: 30px auto;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    }
+        /* Scrollbar */
+
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+    /* Table */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+    }
+    /* Header */
+
+    thead {
+        background: rgba(0, 0, 0, 0.7);
     }
 
+    th {
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: left;
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+    /* Rows */
+
+    td {
+        padding: 12px 20px;
+        color: white;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    /* Hover effect */
+
+    tbody tr:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+    /* Compare link */
+
+    .compare a {
+        color: white;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 6px 12px;
+        border-radius: 7px;
+        transition: background 0.2s ease;
+    }
+
+        .compare a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+
+    .league-header {
+        width: 75%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 15px 20px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    }
+
+        .league-header h2,
+        .league-header h1 {
+            margin: 5px;
+            color: white;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
 </style>
 
 
 
-<h2>League</h2>
-
-<h1>@Model.league.Name</h1>
+<div class="league-header">
+    
+    <h1>@Model.league.Name</h1>
+</div>
 <div class="container">
-    <table class="table">
+
+    <input type="text" id="playerSearch" placeholder="Search player or team name on this page..."
+           style="width: 40%; margin: 15px 0 15px 20px; display: block; padding: 8px 12px; border-radius: 8px; border: none;" />
+    <table class="table" id="standingsTable">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -85,8 +141,8 @@
             {
                 <tr>
                     <td>@result.rank</td>
-                    <td>@result.player_name</td>
-                    <td>@result.entry_name</td>
+                    <td class="player-name">@result.player_name</td>
+                    <td class="entry-name">@result.entry_name</td>
                     <td>@result.total</td>
                     <td class="compare">
                         @Html.ActionLink("Compare", "Compare", "Manager",
@@ -96,4 +152,38 @@
             }
         </tbody>
     </table>
+
+    <div style="display: flex; justify-content: space-between; padding: 15px 20px;">
+        @if (Model.standings.page > 1)
+        {
+            @Html.ActionLink("← Previous", "LeagueC", "Manager",
+                new { managerId = ViewBag.ManagerId, leagueIndex = ViewBag.LeagueIndex, page = Model.standings.page - 1 },
+                new { style = "color:white; text-decoration:none;" })
+        }
+        else
+        {
+            <span></span>
+        }
+
+        @if (Model.standings.has_next)
+        {
+            @Html.ActionLink("Next →", "LeagueC", "Manager",
+                new { managerId = ViewBag.ManagerId, leagueIndex = ViewBag.LeagueIndex, page = Model.standings.page + 1 },
+                new { style = "color:white; text-decoration:none;" })
+        }
+    </div>
 </div>
+
+<script>document.getElementById('playerSearch').addEventListener('input', function () {
+    var query = this.value.toLowerCase();
+    var rows = document.querySelectorAll('#standingsTable tbody tr');
+
+    rows.forEach(function (row) {
+        var playerName = row.querySelector('.player-name').textContent.toLowerCase();
+        var entryName = row.querySelector('.entry-name').textContent.toLowerCase();
+        var match = playerName.includes(query) || entryName.includes(query);
+        row.style.display = match ? '' : 'none';
+    });
+});
+    </script>
+

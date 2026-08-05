@@ -33,7 +33,7 @@
 
     .team {
         position: absolute;
-        top: 40px;
+        top: 30px;
         width: 50%;
         height: calc(100% - 40px);
     }
@@ -62,28 +62,81 @@
         width: 80px;
     }
 
+    .player-card {
+        width: 80px;
+        height: 110px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+
+    /* Jersey */
+    .jersey {
+        height: 75px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Temporary jersey */
+    .jersey-placeholder {
+        font-size: 35px;
+    }
+
+
+    /* Player information */
+    .player-info {
+        height: 35px;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Player name */
+    .player-name {
+        font-weight: bold;
+        font-size: 10px;
+        color: black;
+    }
+
+
+    /* Points */
+    .player-points {
+        font-size: 9px;
+        color: black;
+    }
+
 
 
     .my-team .position-1 {
-        left: 7%;
+        left: 5%;
     }
 
 
     /* DEF */
     .my-team .position-2 {
-        left: 27%;
+        left: 25%;
     }
 
 
     /* MID */
     .my-team .position-3 {
-        left: 48%;
+        left: 46%;
     }
 
 
     /* FWD */
     .my-team .position-4 {
-        left: 68%;
+        left: 66%;
     }
     /* GK */
     .opponent-team .position-1 {
@@ -107,9 +160,83 @@
     .opponent-team .position-4 {
         left: 32%;
     }
+
+    .player-card:hover {
+        transform: translateY(-5px);
+        background: rgba(0, 0, 0, 0.85);
+    }
+
+    .jersey img {
+        width: 50px;
+        height: auto;
+    }
+
+    .captain {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        background: #00b86b;
+        color: black;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+
+    .scoreboard {
+        position: absolute;
+        top: 20px;
+        left: 49%;
+        transform: translateX(-50%);
+        width: 260px;
+        padding: 12px 20px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: white;
+        z-index: 10;
+    }
+
+    .scoreboard-title {
+        font-size: 13px;
+        color: #00b86b;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .scoreboard-difference {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .scoreboard-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* You have more points */
+    .scoreboard-difference.positive {
+        color: #00b86b;
+    }
+
+    /* Opponent has more points */
+    .scoreboard-difference.negative {
+        color: #e74c3c;
+    }
+
+    /* Same points */
+    .scoreboard-difference.equal {
+        color: orange;
+    }
 </style>
 
-
+<!--
 <div class="pitch-header">
     <div>
         Your team:
@@ -143,11 +270,46 @@
     </div>
 
 </div>
+    -->
+
+@{
+    int myPoints = Model.Me.summary_overall_points ?? 0;
+    int opponentPoints = Model.Opponent.summary_overall_points ?? 0;
+    int difference = myPoints - opponentPoints;
+}
+
+<div class="scoreboard">
+    <div class="scoreboard-title">
+        Points Difference
+    </div>
+
+    <div class="scoreboard-difference
+        @(difference > 0 ? "positive" : difference < 0 ? "negative" : "equal")">
+
+        @if (difference > 0)
+        {
+            <span>↑ @difference</span>
+        }
+        else if (difference < 0)
+        {
+            <span>↓ @Math.Abs(difference)</span>
+        }
+        else
+        {
+            <span>0</span>
+        }
+
+    </div>
+
+    <div class="scoreboard-label">
+        You vs Opponent
+    </div>
+</div>
 
 
 <div class="pitch">
     <div class="team my-team">
-        <h3>Your different players:</h3>
+
         @{
             var myGroups = Model.MyUniquePlayers.GroupBy(p => p.element_type);
         }
@@ -155,19 +317,40 @@
         {
             var playersInRow = group.ToList();
             var count = playersInRow.Count;
+
             for (int i = 0; i < count; i++)
             {
+
                 var p = playersInRow[i];
-                double topPercent = (100.0 / (count + 1)) * (i + 1);
+                double topPercent = (104.0 / (count + 1)) * (i + 1);
+
                 <div class="player position-@p.element_type" style="top:@topPercent%">
-                    <div class="player-circle"></div>
-                    <span>@p.web_name</span>
+
+                    <div class="player-card">
+
+                        <div class="jersey">
+
+                            <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+
+                        </div>
+
+                        <div class="player-info">
+                            <span class="player-name">
+                                @p.web_name
+                            </span>
+
+                            <span class="player-points">
+                                @p.total_points pts
+                            </span>
+                        </div>
+
+                    </div>
                 </div>
             }
         }
     </div>
     <div class="team opponent-team">
-        <h3>Opponent different players:</h3>
+
         @{
             var oppGroups = Model.OpponentUniquePlayers.GroupBy(p => p.element_type);
         }
@@ -178,10 +361,29 @@
             for (int i = 0; i < count; i++)
             {
                 var p = playersInRow[i];
-                double topPercent = (100.0 / (count + 1)) * (i + 1);
+                double topPercent = (104.0 / (count + 1)) * (i + 1);
                 <div class="player position-@p.element_type" style="top:@topPercent%">
-                    <div class="player-circle"></div>
-                    <span>@p.web_name</span>
+
+
+                    <div class="player-card">
+
+                        <div class="jersey">
+
+                            <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+
+                        </div>
+
+                        <div class="player-info">
+                            <span class="player-name">
+                                @p.web_name
+                            </span>
+
+                            <span class="player-points">
+                                @p.total_points pts
+                            </span>
+                        </div>
+
+                    </div>
                 </div>
             }
         }

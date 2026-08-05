@@ -5,15 +5,6 @@
 }
 <style>
 
-    .bojan {
-        font-size: 80px;
-        color: white;
-        font-style: oblique;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        margin: 0;
-    }
 
     main {
         color: black;
@@ -35,26 +26,74 @@
 
     .container {
         width: 500px;
-        padding: 20px;
-        background-color: white;
-        border-radius: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        color: white;
     }
+
+        .container h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .container p {
+            text-align: center;
+        }
+    /* Manager form */
+
+    .manager-form {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+    }
+        /* Manager number button */
+
+        .manager-form button {
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px 0 0 10px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            .manager-form button:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
+        /* ID input */
+
+        .manager-form input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            font-size: 16px;
+            outline: none;
+        }
+
+            .manager-form input:focus {
+                border-color: white;
+            }
 </style>
 
 <body>
     
 
-    <h1 class="bojan">FantasyGuru</h1>
-    <div class="container">
-        <h1 class="justify-content-center">FantasyGuru!</h1>
-        <p>Enter your FPLID</p>
-        @using (Html.BeginForm("Squad", "Manager", FormMethod.Get))
-        {
-            <button class="accordion" type="submit">Manager number:</button>
-            <input type="number" name="id" />
-        }
-        </div>
+    
+    <div class="container"> <h1>FantasyGuru!</h1> 
+    <p>Enter your FPL ID</p> 
+    @using (Html.BeginForm("Squad", "Manager", FormMethod.Get, new { @class = "manager-form" }))
+    {
+        <button type="submit"> Manager number </button> 
+        <input type="number" name="id" />
+        } 
+    </div>
 
 </body>
 

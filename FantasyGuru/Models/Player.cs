@@ -26,5 +26,7 @@ namespace FantasyGuru.Models
 
         public bool is_captain { get; set; }
 
+        public int team_code { get; set; }
+
     }
 }

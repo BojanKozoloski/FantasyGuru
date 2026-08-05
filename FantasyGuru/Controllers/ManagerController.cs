@@ -33,7 +33,7 @@ namespace FantasyGuru.Controllers
             
             return View();
         }
-        public ActionResult LeagueC(int managerId, int leagueIndex)
+        public ActionResult LeagueC(int managerId, int leagueIndex,int page=1)
         {
             FPLTeam team = new FPLTeam();
 
@@ -42,10 +42,12 @@ namespace FantasyGuru.Controllers
             League league = manager.leagues.classic.ElementAt(leagueIndex);
 
             //LeagueStandings standings = team.GetLeagueStandings(league.Id);
-            LeagueStandings standings = team.GetLeagueStandingsFake(league.Id,league.Name);
+            LeagueStandings standings = team.GetLeagueStandingsFake(league.Id,league.Name,page);
 
             ViewBag.ManagerId = managerId;
+            ViewBag.LeagueIndex = leagueIndex;
 
+            
             return View(standings);
 
         }

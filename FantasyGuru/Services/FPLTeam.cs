@@ -5,6 +5,8 @@ using System.Web;
 using System.Net.Http;
 using Newtonsoft.Json;
 using FantasyGuru.Models;
+using System.Drawing.Printing;
+using System.Web.UI;
 
 namespace FantasyGuru.Services
 {
@@ -70,6 +72,7 @@ namespace FantasyGuru.Services
                 }
 
             }
+            /*
             foreach (int elementId in elementIds)
             {
                 foreach (Player player in allplayers.elements)
@@ -81,13 +84,24 @@ namespace FantasyGuru.Services
                     }
                 }
             }
+            */
+
+            for (int i = 0; i < elementIds.Count; i++)
+            {
+                Player player = allplayers.elements.FirstOrDefault(p => p.id == elementIds[i]);
+                if (player != null)
+                {
+                    player.position = i + 1;   // 1-11 starting, 12-15 bench, matches picks endpoint semantics
+                    players.Add(player);
+                }
+            }
 
 
             return players;
 
 
         }
-        public LeagueStandings GetLeagueStandings(int leagueId)
+        public LeagueStandings GetLeagueStandings(int leagueId, int page=1)
         {
             string url = $"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings/";
             var response = client.GetStringAsync(url).Result;
@@ -99,9 +113,10 @@ namespace FantasyGuru.Services
         //https://fantasy.premierleague.com/api/entry/{id}/event/1/picks/
         //https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings/ //get all info about standings
 
-        public LeagueStandings GetLeagueStandingsFake(int leagueId, string leagueName)
+        public LeagueStandings GetLeagueStandingsFake(int leagueId, string leagueName,int page=1)
         {
             LeagueStandings standings = new LeagueStandings();
+            int pageSize = 10;
 
             standings.league = new League
             {
@@ -109,11 +124,11 @@ namespace FantasyGuru.Services
                 Name = leagueName
             };
 
-            standings.standings = new StandingsTable
+          
+            var allResults = new List<StandingsResult>
             {
-                results = new List<StandingsResult>
-        {
-            new StandingsResult { entry = 1, rank = 1, player_name = "Alice Smith", entry_name = "Alice's Aces", total = 2145 },
+
+            new StandingsResult { entry = 1, rank = 1, player_name = "Chris Smith", entry_name = "Alice's Aces", total = 2145 },
             new StandingsResult { entry = 2, rank = 2, player_name = "Bob Jones",   entry_name = "Bob's Bombers", total = 2090 },
             new StandingsResult { entry = 3, rank = 3, player_name = "Charlie Lee", entry_name = "Charlie's XI", total = 2050 },
             new StandingsResult { entry = 4, rank = 4, player_name = "Alice Smith the 2nd", entry_name = " Aces", total = 2789 },
@@ -136,11 +151,23 @@ namespace FantasyGuru.Services
             new StandingsResult { entry = 21, rank = 21, player_name = "Charlie Lee", entry_name = "Charlie's XI", total = 2050 },
             new StandingsResult { entry = 22, rank = 22, player_name = "Alice Smith the 2nd", entry_name = " Aces", total = 2789 },
             new StandingsResult { entry = 23, rank = 23, player_name = "Bob Jones 3rd",   entry_name = "AROWANA", total = 2444 },
-            new StandingsResult { entry = 24, rank = 24, player_name = "Bruce Lee", entry_name = "A team", total = 2121 },
-        }
+            new StandingsResult { entry = 24, rank = 24, player_name = "Bruce Lee", entry_name = "A team", total = 2121 }
+
             };
 
-            return standings;
+            var pageResults = allResults.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            bool hasNext = allResults.Count > page * pageSize;
+
+            return new LeagueStandings
+            {
+                league = new League { Id = leagueId, Name = leagueName },
+                standings = new StandingsTable
+                {
+                    results = pageResults,
+                    has_next = hasNext,
+                    page = page
+                }
+            };
         }
 
     }
