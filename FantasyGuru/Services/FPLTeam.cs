@@ -169,6 +169,36 @@ namespace FantasyGuru.Services
                 }
             };
         }
+        public PickR GetGameweekData(int id, int gameweek)
+        {
+            string url = $"https://fantasy.premierleague.com/api/entry/{id}/event/{gameweek}/picks/";
+            var response = client.GetStringAsync(url).Result;
+            PickR pickData = JsonConvert.DeserializeObject<PickR>(response);
+
+
+
+            return pickData;
+        }
+        public PickR GetGameweekDataFake(int id, int gameweek)
+        {
+            PickR data = new PickR();
+            data.entry_history = new EntryHistory();
+
+            if (id == 1)
+            {
+                data.entry_history.points = 65;
+            }
+            else if (id == 2)
+            {
+                data.entry_history.points = 52;
+            }
+            else
+            {
+                data.entry_history.points = 40;
+            }
+
+            return data;
+        }
 
     }
 }

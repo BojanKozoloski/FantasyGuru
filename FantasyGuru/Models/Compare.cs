@@ -14,5 +14,8 @@ namespace FantasyGuru.Models
         public List<Player> MyUniquePlayers { get; set; }
 
         public List<Player> OpponentUniquePlayers { get; set; }
+
+        public int MyGameweekPoints { get; set; }
+        public int OpponentGameweekPoints { get; set; }
     }
 }

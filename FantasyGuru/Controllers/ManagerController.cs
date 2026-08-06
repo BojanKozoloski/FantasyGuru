@@ -18,13 +18,17 @@ namespace FantasyGuru.Controllers
             return View();
         }
 
-        public ActionResult Squad(int id)
+        public ActionResult Squad(int id,int gameweek =1)
         {
             FPLTeam fPLTeam = new FPLTeam();
 
             Manager manager = fPLTeam.GetManager(id);
 
             manager.Team = fPLTeam.GetSquad(id);
+
+            PickR gwData = fPLTeam.GetGameweekDataFake(id, gameweek);
+
+            ViewBag.MyGameweekPoints = gwData.entry_history.points;
 
             return View(manager);
         }
@@ -51,15 +55,17 @@ namespace FantasyGuru.Controllers
             return View(standings);
 
         }
-        public ActionResult Compare(int myid,int oppid)
+        public ActionResult Compare(int myid,int oppid,int gameweek = 1)
         {
             FPLTeam fpl = new FPLTeam();
 
             Manager me = fpl.GetManager(myid);
             me.Team = fpl.GetSquad(myid);
+            PickR myGwData = fpl.GetGameweekDataFake(myid, gameweek);
 
             Manager opp = fpl.GetManager(oppid);
             opp.Team = fpl.GetSquad(oppid);
+            PickR oppGwData = fpl.GetGameweekDataFake(oppid, gameweek);
 
             Compare cmp = new Compare();
 
@@ -68,6 +74,9 @@ namespace FantasyGuru.Controllers
 
             cmp.MyUniquePlayers = me.Team.Where(p => !opp.Team.Any(o => o.id == p.id)).ToList();
             cmp.OpponentUniquePlayers = opp.Team.Where(p => !me.Team.Any(o => o.id == p.id)).ToList();
+
+            cmp.MyGameweekPoints = myGwData.entry_history.points;
+            cmp.OpponentGameweekPoints = oppGwData.entry_history.points;
 
             return View(cmp);
         }

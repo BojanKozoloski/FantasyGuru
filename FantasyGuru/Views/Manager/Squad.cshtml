@@ -79,12 +79,18 @@
         width: 80px;
         height: 110px;
         background: rgba(0, 0, 0, 0.75);
-        
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
         text-align: center;
+        cursor: pointer;
+        transition: transform 0.15s ease;
     }
+
+        .player-card:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
 
     .jersey {
         height: 75px;
@@ -133,7 +139,6 @@
     /* GK */
     .team .position-1 {
         left: -13%;
-        
     }
 
     /* DEF */
@@ -150,6 +155,7 @@
     .team .position-4 {
         left: 40%;
     }
+
     .jersey img {
         width: 50px;
         height: auto;
@@ -158,7 +164,7 @@
 
     .bench {
         position: absolute;
-        bottom: 30px;
+        bottom: -190px;
         left: -375px;
         display: flex;
         flex-direction: column;
@@ -166,7 +172,7 @@
         background: rgba(0, 0, 0, 0.65);
         padding: 10px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5)
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
 
         .bench h4 {
@@ -179,29 +185,17 @@
         width: 80px;
         height: 110px;
         background: rgba(0, 0, 0, 0.75);
-        
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
         text-align: center;
+        cursor: pointer;
+        transition: transform 0.15s ease;
     }
-
-        .bench-card .jersey img {
-            width: 50px;
-            height: auto;
+        .bench-card:active {
+            transform: scale(0.95);
         }
 
-        .bench-card .player-info {
-            height: 25px;
-        }
-
-        .bench-card .player-name {
-            font-size: 9px;
-        }
-
-        .bench-card .player-points {
-            font-size: 8px;
-        }
     .squad-info {
         position: absolute;
         top: 20px;
@@ -212,6 +206,8 @@
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         color: white;
         z-index: 10;
+        cursor: pointer;
+        transition: transform 0.15s ease;
     }
 
         .squad-info h1 {
@@ -225,6 +221,13 @@
             color: white;
             font-size: 16px;
         }
+   
+
+        .squad-info:active {
+            transform: scale(0.95);
+        }
+
+
 </style>
 <script>
 function goToLeague() {
@@ -233,22 +236,50 @@ function goToLeague() {
     window.location.href =
         "/Manager/LeagueC?managerId=" + managerId +
         "&leagueIndex=" + leagueIndex;
-}
+    }
+
+    function togglePoints(card) {
+        var points = card.querySelector(".player-points");
+
+        var eventPoints = points.getAttribute("data-event-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = eventPoints + " pts";
+            points.dataset.showing = "event";
+        }
+        else {
+            points.textContent = totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+    }
+    function toggleSquadPoints(box) {
+        var points = box.querySelector(".squad-points");
+
+        var gwPoints = points.getAttribute("data-gw-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = "GW: " + gwPoints + " pts";
+            points.dataset.showing = "gw";
+        }
+        else {
+            points.textContent = "Total: " + totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+
+    }
 </script>
 
-<div class="squad-info">
+<div class="squad-info" onclick="toggleSquadPoints(this)">
     <h1>@Model.player_first_name @Model.player_last_name</h1>
+
     <h3>
-        Total points:
-        @if (Model.summary_overall_points == null)
-        {
-            var points = 0;
-            @points;
-        }
-        else
-        {
-            @Model.summary_overall_points;
-        }
+        <span class="squad-points"
+              data-gw-points="@(ViewBag.MyGameweekPoints ?? 0)"
+              data-total-points="@(Model.summary_overall_points ?? 0)">
+            GW: @(ViewBag.MyGameweekPoints ?? 0) pts
+        </span>
     </h3>
 </div>
 
@@ -267,7 +298,7 @@ function goToLeague() {
                 {
                     var p = playersInRow[i];
                     double topPercent = (125.0 / (count + 1)) * (i + 1);
-                    <div class="player-card position-@p.element_type" style="top:@topPercent%">
+                    <div class="player-card position-@p.element_type" style="top:@topPercent%" onclick="togglePoints(this)">
                         <div class="jersey">
                             <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@(p.team_code)-66.png" alt="@p.web_name" />
                         </div>
@@ -277,7 +308,12 @@ function goToLeague() {
                             {
                                 <span class="captain">C</span>
                             }
-                            <span class="player-points">@p.total_points pts</span>
+                            <span class="player-points"
+                                  data-event-points="@p.event_points"
+                                  data-total-points="@p.total_points">
+                                @p.event_points pts
+
+                            </span>
                         </div>
                     </div>
                 }
@@ -294,13 +330,18 @@ function goToLeague() {
             }
             @foreach (var p in bench)
             {
-                <div class="bench-card">
+                <div class="bench-card" onclick="togglePoints(this)">
                     <div class="jersey">
                         <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@(p.team_code)-66.png" alt="@p.web_name" />
                     </div>
                     <div class="player-info">
                         <span class="player-name">@p.web_name</span>
-                        <span class="player-points">@p.total_points pts</span>
+                        <span class="player-points"
+                              data-event-points="@p.event_points"
+                              data-total-points="@p.total_points">
+                            @p.event_points pts
+
+                        </span>
                     </div>
                 </div>
             }
@@ -324,5 +365,5 @@ function goToLeague() {
             </select>
         }
     </div>
-   
+
 </div>

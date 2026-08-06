@@ -71,8 +71,13 @@
         box-shadow: 0 3px 10px rgba(0,0,0,0.6);
         text-align: center;
         border: 1px solid rgba(255,255,255,0.2);
-        transition: transform 0.2s ease, background 0.2s ease;
+        cursor: pointer;
+        transition: transform 0.15s ease;
     }
+
+        .player-card:active {
+            transform: scale(0.95);
+        }
 
 
     /* Jersey */
@@ -161,10 +166,7 @@
         left: 32%;
     }
 
-    .player-card:hover {
-        transform: translateY(-5px);
-        background: rgba(0, 0, 0, 0.85);
-    }
+
 
     .jersey img {
         width: 50px;
@@ -234,6 +236,88 @@
     .scoreboard-difference.equal {
         color: orange;
     }
+
+
+    .bench {
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px;
+        border-radius: 10px;
+        z-index: 5;
+    }
+
+    .my-bench {
+        left: 10px;
+    }
+
+    .opponent-bench {
+        right: 10px;
+    }
+
+    .bench h4 {
+        color: white;
+        font-size: 11px;
+        margin: 0 0 4px 0;
+        text-align: center;
+    }
+
+    .bench-card {
+        width: 80px;
+        height: 110px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+
+        .bench-card:active {
+            transform: scale(0.95);
+        }
+
+    .team-info {
+        position: absolute;
+        top: 20px;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 15px 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        color: white;
+        z-index: 10;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+
+    .my-info {
+        left: 30px;
+    }
+
+    .opponent-info {
+        right: 30px;
+    }
+
+    .team-info h2 {
+        margin: 0 0 8px 0;
+        color: #00b86b;
+        font-size: 20px;
+    }
+
+    .team-info h3 {
+        margin: 0;
+        color: white;
+        font-size: 15px;
+    }
+
+    .team-info:active {
+        transform: scale(0.95);
+    }
 </style>
 
 <!--
@@ -273,37 +357,36 @@
     -->
 
 @{
-    int myPoints = Model.Me.summary_overall_points ?? 0;
-    int opponentPoints = Model.Opponent.summary_overall_points ?? 0;
-    int difference = myPoints - opponentPoints;
+    int myTotal = Model.Me.summary_overall_points ?? 0;
+    int oppTotal = Model.Opponent.summary_overall_points ?? 0;
+    int totalDifference = myTotal - oppTotal;
+    int gwDifference = Model.MyGameweekPoints - Model.OpponentGameweekPoints;
 }
 
-<div class="scoreboard">
-    <div class="scoreboard-title">
-        Points Difference
-    </div>
+<div class="scoreboard" onclick="toggleScoreboard(this)"
+     data-total-diff="@totalDifference"
+     data-gw-diff="@gwDifference"
+     data-showing="total">
 
-    <div class="scoreboard-difference
-        @(difference > 0 ? "positive" : difference < 0 ? "negative" : "equal")">
+    <div class="scoreboard-title" id="scoreboardTitle">Points Difference</div>
 
-        @if (difference > 0)
+    <div class="scoreboard-difference @(totalDifference > 0 ? "positive" : totalDifference < 0 ? "negative" : "equal")"
+         id="scoreboardValue">
+        @if (totalDifference > 0)
         {
-            <span>↑ @difference</span>
+            <span>↑ @totalDifference</span>
         }
-        else if (difference < 0)
+        else if (totalDifference < 0)
         {
-            <span>↓ @Math.Abs(difference)</span>
+            <span>↓ @Math.Abs(totalDifference)</span>
         }
         else
         {
             <span>0</span>
         }
-
     </div>
 
-    <div class="scoreboard-label">
-        You vs Opponent
-    </div>
+    <div class="scoreboard-label">You vs Opponent</div>
 </div>
 
 
@@ -311,7 +394,10 @@
     <div class="team my-team">
 
         @{
-            var myGroups = Model.MyUniquePlayers.GroupBy(p => p.element_type);
+            var myStarters = Model.MyUniquePlayers
+            .Where(p => p.position >= 1 && p.position <= 11);
+
+            var myGroups = myStarters.GroupBy(p => p.element_type);
         }
         @foreach (var group in myGroups)
         {
@@ -326,7 +412,7 @@
 
                 <div class="player position-@p.element_type" style="top:@topPercent%">
 
-                    <div class="player-card">
+                    <div class="player-card" onclick="togglePoints(this)">
 
                         <div class="jersey">
 
@@ -339,8 +425,9 @@
                                 @p.web_name
                             </span>
 
-                            <span class="player-points">
-                                @p.total_points pts
+                            <span class="player-points" data-event-points="@p.event_points"
+                                  data-total-points="@p.total_points">
+                                @p.event_points pts
                             </span>
                         </div>
 
@@ -349,10 +436,15 @@
             }
         }
     </div>
+
+
     <div class="team opponent-team">
 
         @{
-            var oppGroups = Model.OpponentUniquePlayers.GroupBy(p => p.element_type);
+            var oppStarters = Model.OpponentUniquePlayers
+        .Where(p => p.position >= 1 && p.position <= 11);
+
+            var oppGroups = oppStarters.GroupBy(p => p.element_type);
         }
         @foreach (var group in oppGroups)
         {
@@ -365,7 +457,7 @@
                 <div class="player position-@p.element_type" style="top:@topPercent%">
 
 
-                    <div class="player-card">
+                    <div class="player-card" onclick="togglePoints(this)">
 
                         <div class="jersey">
 
@@ -378,8 +470,9 @@
                                 @p.web_name
                             </span>
 
-                            <span class="player-points">
-                                @p.total_points pts
+                            <span class="player-points" data-event-points="@p.event_points"
+                                  data-total-points="@p.total_points">
+                                @p.event_points pts
                             </span>
                         </div>
 
@@ -388,4 +481,146 @@
             }
         }
     </div>
+
 </div>
+
+
+<div class="bench opponent-bench">
+    <h4>Bench (different)</h4>
+    @{
+        var oppBench = Model.OpponentUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
+                                                   .OrderBy(p => p.element_type == 1 ? 0 : 1)
+                                                   .ThenBy(p => p.position);
+    }
+    @foreach (var p in oppBench)
+    {
+        <div class="bench-card" onclick="togglePoints(this)">
+            <div class="jersey">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+            </div>
+            <div class="player-info">
+                <span class="player-name">@p.web_name</span>
+                <span class="player-points" data-event-points="@p.event_points" data-total-points="@p.total_points">
+                    @p.event_points pts
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="bench my-bench">
+    <h4>Bench (different)</h4>
+    @{
+        var myBench = Model.MyUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
+                                            .OrderBy(p => p.element_type == 1 ? 0 : 1)
+                                            .ThenBy(p => p.position);
+    }
+    @foreach (var p in myBench)
+    {
+        <div class="bench-card" onclick="togglePoints(this)">
+            <div class="jersey">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+            </div>
+            <div class="player-info">
+                <span class="player-name">@p.web_name</span>
+                <span class="player-points" data-event-points="@p.event_points" data-total-points="@p.total_points">
+                    @p.event_points pts
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+
+@{
+    int myGWPoints = Model.MyGameweekPoints;
+    int opponentGWPoints = Model.OpponentGameweekPoints;
+
+    int myTotalPoints = Model.Me.summary_overall_points ?? 0;
+    int opponentTotalPoints = Model.Opponent.summary_overall_points ?? 0;
+}
+
+<div class="team-info my-info" onclick="toggleTeamPoints(this)">
+    <h2>
+        @Model.Me.player_first_name @Model.Me.player_last_name
+    </h2>
+
+    <h3>
+        <span class="team-points"
+              data-gw-points="@myGWPoints"
+              data-total-points="@myTotalPoints">
+            GW: @myGWPoints pts
+        </span>
+    </h3>
+</div>
+
+<div class="team-info opponent-info" onclick="toggleTeamPoints(this)">
+    <h2>
+        @Model.Opponent.player_first_name @Model.Opponent.player_last_name
+    </h2>
+
+    <h3>
+        <span class="team-points"
+              data-gw-points="@opponentGWPoints"
+              data-total-points="@opponentTotalPoints">
+            GW: @opponentGWPoints pts
+        </span>
+    </h3>
+</div>
+
+<script>
+    function togglePoints(card) {
+        var points = card.querySelector(".player-points");
+
+        var eventPoints = points.getAttribute("data-event-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = eventPoints + " pts";
+            points.dataset.showing = "event";
+        }
+        else {
+            points.textContent = totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+    }
+
+    function toggleScoreboard(card) {
+        var valueEl = card.querySelector("#scoreboardValue");
+        var titleEl = card.querySelector("#scoreboardTitle");
+
+        var totalDiff = parseInt(card.getAttribute("data-total-diff"));
+        var gwDiff = parseInt(card.getAttribute("data-gw-diff"));
+
+        var showingTotal = card.getAttribute("data-showing") === "total";
+        var diff = showingTotal ? gwDiff : totalDiff;
+
+        titleEl.textContent = showingTotal ? "Gameweek Difference" : "Points Difference";
+        card.setAttribute("data-showing", showingTotal ? "gw" : "total");
+
+        valueEl.className = "scoreboard-difference " + (diff > 0 ? "positive" : diff < 0 ? "negative" : "equal");
+
+        if (diff > 0) {
+            valueEl.innerHTML = "<span>↑ " + diff + "</span>";
+        } else if (diff < 0) {
+            valueEl.innerHTML = "<span>↓ " + Math.abs(diff) + "</span>";
+        } else {
+            valueEl.innerHTML = "<span>0</span>";
+        }
+    }
+    function toggleTeamPoints(box) {
+        var points = box.querySelector(".team-points");
+
+        var gwPoints = points.getAttribute("data-gw-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = "GW: " + gwPoints + " pts";
+            points.dataset.showing = "gw";
+        }
+        else {
+            points.textContent = "Total: " + totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+    }
+</script>
