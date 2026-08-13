@@ -128,7 +128,7 @@ namespace FantasyGuru.Services
             var allResults = new List<StandingsResult>
             {
 
-            new StandingsResult { entry = 1, rank = 1, player_name = "Chris Smith", entry_name = "Alice's Aces", total = 2145 },
+            new StandingsResult { entry = 1, rank = 1, player_name = "Chris Smith", entry_name = "Alice's Aces", total = 3145 },
             new StandingsResult { entry = 2, rank = 2, player_name = "Bob Jones",   entry_name = "Bob's Bombers", total = 2090 },
             new StandingsResult { entry = 3, rank = 3, player_name = "Charlie Lee", entry_name = "Charlie's XI", total = 2050 },
             new StandingsResult { entry = 4, rank = 4, player_name = "Alice Smith the 2nd", entry_name = " Aces", total = 2789 },
@@ -155,8 +155,10 @@ namespace FantasyGuru.Services
 
             };
 
-            var pageResults = allResults.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            bool hasNext = allResults.Count > page * pageSize;
+            var sortedResults = allResults.OrderByDescending(r => r.total).ToList();
+
+            var pageResults = sortedResults.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            bool hasNext = sortedResults.Count > page * pageSize;
 
             return new LeagueStandings
             {

@@ -7,31 +7,30 @@
     body {
         margin: 0;
         overflow: hidden;
-        background-image: url('/Images/FantasyGurupitch.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
     }
 
     .Box {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        gap: 50px;
+        gap: 2%;
+        width: 100%;
     }
 
     .Choose {
         position: absolute;
-        top: 400px;
-        right: 600px;
-        width: 220px;
+        top: 5%;
+        right: 3%;
+        width: 15%;
+        min-width: 180px;
+        max-width: 220px;
         background: rgba(0, 0, 0, 0.65);
-        padding: 20px;
+        padding: 2%;
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         color: white;
-        z-index: 10;
+        z-index: 20;
+        box-sizing: border-box;
     }
 
         .Choose h3 {
@@ -48,6 +47,7 @@
             color: white;
             font-size: 14px;
             cursor: pointer;
+            box-sizing: border-box;
         }
 
             .Choose select:focus {
@@ -60,15 +60,22 @@
             }
 
     .pitch {
-        position: relative;
-        width: 60vw;
-        height: 78vh;
-        margin: 10px auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('/Images/FantasyGurupitch.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        container-type: inline-size;
     }
 
     .team {
         position: absolute;
         top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
     }
@@ -76,8 +83,8 @@
     .player-card {
         position: absolute;
         transform: translate(-50%, -50%);
-        width: 80px;
-        height: 110px;
+        width: 5cqw; 
+        height: 8cqw;
         background: rgba(0, 0, 0, 0.75);
         border-radius: 10px;
         overflow: hidden;
@@ -93,7 +100,7 @@
 
 
     .jersey {
-        height: 75px;
+        height: 68%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -104,7 +111,7 @@
     }
 
     .player-info {
-        height: 35px;
+        height: 32%;
         background: white;
         display: flex;
         flex-direction: column;
@@ -124,8 +131,8 @@
 
     .captain {
         position: absolute;
-        top: 3px;
-        right: 3px;
+        top: 3%;
+        right: 3%;
         background: #00b86b;
         color: black;
         font-weight: bold;
@@ -138,41 +145,45 @@
 
     /* GK */
     .team .position-1 {
-        left: -13%;
+        left: 10%
     }
 
     /* DEF */
     .team .position-2 {
-        left: -2%;
+        left: 22%
     }
 
     /* MID */
     .team .position-3 {
-        left: 18%;
+        left: 35%
     }
 
     /* FWD */
     .team .position-4 {
-        left: 40%;
+        left: 48%;
     }
 
     .jersey img {
-        width: 50px;
+        width: 62%;
         height: auto;
     }
 
 
     .bench {
         position: absolute;
-        bottom: -190px;
-        left: -375px;
+        bottom: 0.6cqw;
+        left: 0.5cqw;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 0.5cqw;
+        width: 6cqw;
+        height: 35cqw;
         background: rgba(0, 0, 0, 0.65);
-        padding: 10px;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        box-sizing: border-box;
+        padding: 0.5cqw;
+        
     }
 
         .bench h4 {
@@ -182,8 +193,9 @@
         }
 
     .bench-card {
-        width: 80px;
-        height: 110px;
+        width: 5cqw;
+        height: 8cqw;
+        aspect-ratio: 80 / 110;
         background: rgba(0, 0, 0, 0.75);
         border-radius: 10px;
         overflow: hidden;
@@ -198,16 +210,18 @@
 
     .squad-info {
         position: absolute;
-        top: 20px;
-        left: 30px;
+        top: 3%;
+        left: 3%;
+        width: 18%;
         background: rgba(0, 0, 0, 0.65);
-        padding: 15px 25px;
+        padding: 1.5% 2%;
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         color: white;
         z-index: 10;
         cursor: pointer;
         transition: transform 0.15s ease;
+        box-sizing: border-box;
     }
 
         .squad-info h1 {
@@ -297,7 +311,7 @@ function goToLeague() {
                 for (int i = 0; i < count; i++)
                 {
                     var p = playersInRow[i];
-                    double topPercent = (125.0 / (count + 1)) * (i + 1);
+                    double topPercent = (100.0 / (count + 1)) * (i + 1);
                     <div class="player-card position-@p.element_type" style="top:@topPercent%" onclick="togglePoints(this)">
                         <div class="jersey">
                             <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@(p.team_code)-66.png" alt="@p.web_name" />
