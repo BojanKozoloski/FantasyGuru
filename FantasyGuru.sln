@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGuru", "FantasyGuru\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGuru.Tests", "FantasyGuru.Tests\FantasyGuru.Tests.csproj", "{2870EC9D-E5C9-4240-9314-32CF072D6AA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGuruIntegration.Tests", "FantasyGuruIntegration.Tests\FantasyGuruIntegration.Tests.csproj", "{05F5C4E4-8994-4E13-879A-B1120F25CD6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaywrightTest", "PlaywrightTest\PlaywrightTest.csproj", "{EB670CFC-EB7F-46E1-BC46-C1C677BBF85D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{2870EC9D-E5C9-4240-9314-32CF072D6AA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2870EC9D-E5C9-4240-9314-32CF072D6AA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2870EC9D-E5C9-4240-9314-32CF072D6AA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F5C4E4-8994-4E13-879A-B1120F25CD6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F5C4E4-8994-4E13-879A-B1120F25CD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F5C4E4-8994-4E13-879A-B1120F25CD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F5C4E4-8994-4E13-879A-B1120F25CD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB670CFC-EB7F-46E1-BC46-C1C677BBF85D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB670CFC-EB7F-46E1-BC46-C1C677BBF85D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB670CFC-EB7F-46E1-BC46-C1C677BBF85D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB670CFC-EB7F-46E1-BC46-C1C677BBF85D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,7 @@ using System.Linq;
 namespace FantasyGuru.Tests
 {
     [TestClass]
-    public class CompareLogicTests
+    public class Unit
     {
         [TestMethod]
         public void TestMethod1()

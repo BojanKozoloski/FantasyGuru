@@ -4,7 +4,7 @@ using System;
 namespace FantasyGuruIntegration.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class Integration
     {
         [TestMethod]
         public void TestMethod1()
