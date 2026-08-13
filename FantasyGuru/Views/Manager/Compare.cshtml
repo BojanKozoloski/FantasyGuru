@@ -191,7 +191,7 @@
     .scoreboard {
         position: absolute;
         top: 20px;
-        left: 49%;
+        left: 49.5%;
         transform: translateX(-50%);
         width: 260px;
         padding: 12px 20px;
@@ -201,8 +201,13 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         text-align: center;
         color: white;
-        z-index: 10;
+        z-index: 70;
+        cursor: pointer;
     }
+        .scoreboard:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
 
     .scoreboard-title {
         font-size: 13px;
@@ -251,11 +256,11 @@
     }
 
     .my-bench {
-        left: 10px;
+        left: 1%;
     }
 
     .opponent-bench {
-        right: 10px;
+        right: 2%;
     }
 
     .bench h4 {

@@ -129,7 +129,7 @@
     <table class="table" id="standingsTable">
         <thead>
             <tr>
-                <th>Rank</th>
+                
                 <th>Manager</th>
                 <th>Team Name</th>
                 <th>Points</th>
@@ -140,7 +140,7 @@
             @foreach (var result in Model.standings.results)
             {
                 <tr>
-                    <td>@result.rank</td>
+                    
                     <td class="player-name">@result.player_name</td>
                     <td class="entry-name">@result.entry_name</td>
                     <td>@result.total</td>
