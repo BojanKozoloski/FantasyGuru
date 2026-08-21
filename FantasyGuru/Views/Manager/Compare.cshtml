@@ -491,7 +491,7 @@
 
 
 <div class="bench opponent-bench">
-    <h4>Bench (different)</h4>
+    <h4>Bench (opponent)</h4>
     @{
         var oppBench = Model.OpponentUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
                                                    .OrderBy(p => p.element_type == 1 ? 0 : 1)
@@ -514,7 +514,7 @@
 </div>
 
 <div class="bench my-bench">
-    <h4>Bench (different)</h4>
+    <h4>Bench</h4>
     @{
         var myBench = Model.MyUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
                                             .OrderBy(p => p.element_type == 1 ? 0 : 1)
