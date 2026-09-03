@@ -325,41 +325,6 @@
     }
 </style>
 
-<!--
-<div class="pitch-header">
-    <div>
-        Your team:
-        @Model.Me.player_first_name
-        @if (Model.Me.summary_overall_points == null)
-        {
-            var points = 0;
-            @points;
-        }
-        else
-        {
-            @Model.Me.summary_overall_points;
-        }
-
-    </div>
-
-
-    <div>
-        Opponent team:
-        @Model.Opponent.player_first_name
-        @if (Model.Opponent.summary_overall_points == null)
-        {
-            var points = 0;
-            @points;
-        }
-        else
-
-        {
-            @Model.Opponent.summary_overall_points;
-        }
-    </div>
-
-</div>
-    -->
 
 @{
     int myTotal = Model.Me.summary_overall_points ?? 0;
@@ -367,7 +332,9 @@
     int totalDifference = myTotal - oppTotal;
     int gwDifference = Model.MyGameweekPoints - Model.OpponentGameweekPoints;
 }
-
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
 <div class="scoreboard" onclick="toggleScoreboard(this)"
      data-total-diff="@totalDifference"
      data-gw-diff="@gwDifference"
@@ -430,10 +397,12 @@
                                 @p.web_name
                             </span>
 
-                            <span class="player-points" data-event-points="@p.event_points"
+                            <span class="player-points"
+                                  data-event-points="@(p.event_points * p.multiplier)"
                                   data-total-points="@p.total_points">
-                                @p.event_points pts
-                            </span>
+                                @(p.event_points * p.multiplier) pts
+
+                            </span>s
                         </div>
 
                     </div>
@@ -475,10 +444,12 @@
                                 @p.web_name
                             </span>
 
-                            <span class="player-points" data-event-points="@p.event_points"
+                            <span class="player-points"
+                                  data-event-points="@(p.event_points * p.multiplier)"
                                   data-total-points="@p.total_points">
-                                @p.event_points pts
-                            </span>
+                                @(p.event_points * p.multiplier) pts
+
+                            </span>s
                         </div>
 
                     </div>

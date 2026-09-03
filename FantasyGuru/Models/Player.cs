@@ -23,6 +23,7 @@ namespace FantasyGuru.Models
 
         public int? event_points { get; set; }
 
+        public int multiplier { get; set; }
 
         public int element { get; set; }
 

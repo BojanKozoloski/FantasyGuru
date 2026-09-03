@@ -8,5 +8,6 @@ namespace FantasyGuru.Models
     public class Bootstrap
     {
         public List<Player> elements { get; set; }
+        public List<Event> events { get; set; }
     }
 }

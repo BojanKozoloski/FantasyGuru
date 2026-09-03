@@ -118,6 +118,7 @@
     <Compile Include="Models\Bootstrap.cs" />
     <Compile Include="Models\Compare.cs" />
     <Compile Include="Models\EntryHistory.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\League.cs" />
     <Compile Include="Models\Leagues.cs" />
     <Compile Include="Models\LeagueStandings.cs" />

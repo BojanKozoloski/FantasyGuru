@@ -284,6 +284,10 @@ function goToLeague() {
 
     }
 </script>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
 
 <div class="squad-info" onclick="toggleSquadPoints(this)">
     <h1>@Model.player_first_name @Model.player_last_name</h1>
@@ -321,13 +325,14 @@ function goToLeague() {
                             @if (p.is_captain)
                             {
                                 <span class="captain">C</span>
+                                
                             }
-                            <span class="player-points"
-                                  data-event-points="@p.event_points"
-                                  data-total-points="@p.total_points">
-                                @p.event_points pts
+                        <span class="player-points"
+                              data-event-points="@(p.event_points * p.multiplier)"
+                              data-total-points="@p.total_points">
+                            @(p.event_points * p.multiplier) pts
 
-                            </span>
+                        </span>
                         </div>
                     </div>
                 }

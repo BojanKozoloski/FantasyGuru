@@ -44,6 +44,7 @@ namespace FantasyGuru.Services
                 {
                     player.position = pick.position;       
                     player.is_captain = pick.is_captain;
+                    player.multiplier = pick.multiplier;
                     players.Add(player);
                 }
             }
@@ -58,22 +59,30 @@ namespace FantasyGuru.Services
             return standings;
         }
 
-        //https://fantasy.premierleague.com/api/entry/{id}/event/38/picks/
-        //https://fantasy.premierleague.com/api/entry/{id}/event/1/picks/
-        //https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings/ //get all info about standings
-
-
         public PickR GetGameweekData(int id, int gameweek)
         {
             string url = $"https://fantasy.premierleague.com/api/entry/{id}/event/{gameweek}/picks/";
             var response = client.GetStringAsync(url).Result;
             PickR pickData = JsonConvert.DeserializeObject<PickR>(response);
-
-
-
             return pickData;
         }
-        
+        public int GetCurrentGameweek()
+        {
+            string url = "https://fantasy.premierleague.com/api/bootstrap-static/";
+            var response = client.GetStringAsync(url).Result;
+            Bootstrap data = JsonConvert.DeserializeObject<Bootstrap>(response);
+
+            Event current = data.events.FirstOrDefault(e => e.is_current);
+            if (current != null)
+            {
+                return current.id;
+            }
+
+            Event next = data.events.FirstOrDefault(e => e.is_next);
+            return next != null ? next.id : 1;
+        }
+
+
 
     }
 }
