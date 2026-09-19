@@ -36,23 +36,21 @@ namespace FantasyGuru.Controllers
             
             return View();
         }
-        public ActionResult LeagueC(int managerId, int leagueIndex,int page=1)
+        public ActionResult LeagueC(int managerId, int leagueIndex, int page = 1)
         {
             FPLTeam team = new FPLTeam();
-
             Manager manager = team.GetManager(managerId);
-
             League league = manager.leagues.classic.ElementAt(leagueIndex);
-
-            //LeagueStandings standings = team.GetLeagueStandings(league.Id);
             LeagueStandings standings = team.GetLeagueStandings(league.Id, page);
+
+            standings.standings.results = standings.standings.results
+                .OrderByDescending(r => r.event_total)
+                .ToList();
 
             ViewBag.ManagerId = managerId;
             ViewBag.LeagueIndex = leagueIndex;
 
-            
             return View(standings);
-
         }
         public ActionResult Compare(int myid, int oppid, int? gameweek = null)
         {
@@ -70,11 +68,18 @@ namespace FantasyGuru.Controllers
             Compare cmp = new Compare();
             cmp.Me = me;
             cmp.Opponent = opp;
-            cmp.MyUniquePlayers = me.Team.Where(p => !opp.Team.Any(o => o.id == p.id)).ToList();
-            cmp.OpponentUniquePlayers = opp.Team.Where(p => !me.Team.Any(o => o.id == p.id)).ToList();
+            cmp.MyUniquePlayers = me.Team.Where(p => !opp.Team.Any(o => o.id == p.id && o.is_captain == p.is_captain)).ToList();
+            cmp.OpponentUniquePlayers = opp.Team.Where(p => !me.Team.Any(o => o.id == p.id && o.is_captain == p.is_captain)).ToList();
             cmp.MyGameweekPoints = myGwData.entry_history.points;
             cmp.OpponentGameweekPoints = oppGwData.entry_history.points;
-            ViewBag.CurrentGameweek = gw;
+
+            var (myAvailable, myActive) = fpl.GetChipStatus(myid, gw);
+            var (oppAvailable, oppActive) = fpl.GetChipStatus(oppid, gw);
+
+            cmp.MyAvailableChips = myAvailable;
+            cmp.MyActiveChip = myActive;
+            cmp.OpponentAvailableChips = oppAvailable;
+            cmp.OpponentActiveChip = oppActive;
 
             return View(cmp);
         }

@@ -5,7 +5,6 @@
 }
 
 <style>
-
     body {
         margin: 0;
         background-image: url('/Images/FantasyGurupitch.png');
@@ -15,14 +14,12 @@
         background-attachment: fixed;
         font-family: Arial, sans-serif;
     }
-    /* League title */
 
     h2, h1 {
         color: white;
         text-align: center;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     }
-    /* Table container */
 
     .container {
         width: 75%;
@@ -34,7 +31,6 @@
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
     }
-        /* Scrollbar */
 
         .container::-webkit-scrollbar {
             width: 8px;
@@ -48,14 +44,12 @@
             background: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
         }
-    /* Table */
 
     table {
         width: 100%;
         border-collapse: collapse;
         color: white;
     }
-    /* Header */
 
     thead {
         background: rgba(0, 0, 0, 0.7);
@@ -69,19 +63,31 @@
         padding: 14px 20px;
         font-size: 14px;
     }
-    /* Rows */
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+            th.sortable:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            th.sortable .arrow {
+                font-size: 11px;
+                margin-left: 4px;
+                opacity: 0.6;
+            }
 
     td {
         padding: 12px 20px;
         color: white;
         border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
-    /* Hover effect */
 
     tbody tr:hover {
         background: rgba(255, 255, 255, 0.12);
     }
-    /* Compare link */
 
     .compare a {
         color: white;
@@ -96,6 +102,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+    
 
     .league-header {
         width: 75%;
@@ -107,49 +114,66 @@
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
     }
 
-        .league-header h2,
-        .league-header h1 {
+        .league-header h2, .league-header h1 {
             margin: 5px;
             color: white;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
+
+    .sort-note {
+        color: rgba(255,255,255,0.5);
+        font-size: 11px;
+        text-align: center;
+        margin: 0 0 10px 0;
+    }
 </style>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-
-
 <div class="league-header">
-    
     <h1>@Model.league.Name</h1>
 </div>
-<div class="container">
 
+<div class="container">
     <input type="text" id="playerSearch" placeholder="Search player or team name on this page..."
-           style="width: 40%; margin: 15px 0 15px 20px; display: block; padding: 8px 12px; border-radius: 8px; border: none;" />
+           style="width: 40%; margin: 15px 0 5px 20px; display: block; padding: 8px 12px; border-radius: 8px; border: none;" />
+
+    <p class="sort-note">Sorting only applies to managers currently loaded on this page.</p>
+
     <table class="table" id="standingsTable">
         <thead>
             <tr>
-                
                 <th>Manager</th>
                 <th>Team Name</th>
-                <th>Points</th>
+                <th class="sortable" data-sort-key="gw" data-order="desc">
+                    Gameweek Points <span class="arrow">▼</span>
+                </th>
+                <th class="sortable" data-sort-key="total" data-order="none">
+                    Total Points <span class="arrow"></span>
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var result in Model.standings.results)
             {
-                <tr>
-                    
+                <tr data-gw="@result.event_total" data-total="@result.total">
                     <td class="player-name">@result.player_name</td>
                     <td class="entry-name">@result.entry_name</td>
-                    <td>@result.total</td>
+                    <td class="gw-points">@result.event_total</td>
+                    <td class="total-points">@result.total</td>
                     <td class="compare">
-                        @Html.ActionLink("Compare", "Compare", "Manager",
-                            new { myid = ViewBag.ManagerId, oppid = result.entry }, null)
+                        @if (result.entry == (int)ViewBag.ManagerId)
+                        {
+                            
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Compare", "Compare", "Manager",
+                                new { myid = ViewBag.ManagerId, oppid = result.entry }, null)
+                        }
                     </td>
                 </tr>
             }
@@ -177,16 +201,50 @@
     </div>
 </div>
 
-<script>document.getElementById('playerSearch').addEventListener('input', function () {
-    var query = this.value.toLowerCase();
-    var rows = document.querySelectorAll('#standingsTable tbody tr');
+<script>
+    var searchInput = document.getElementById('playerSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function (event) {
+            var query = event.target.value.toLowerCase();
+            var rows = document.querySelectorAll('#standingsTable tbody tr');
 
-    rows.forEach(function (row) {
-        var playerName = row.querySelector('.player-name').textContent.toLowerCase();
-        var entryName = row.querySelector('.entry-name').textContent.toLowerCase();
-        var match = playerName.includes(query) || entryName.includes(query);
-        row.style.display = match ? '' : 'none';
+            rows.forEach(function (row) {
+                var playerNameEl = row.querySelector('.player-name');
+                var entryNameEl = row.querySelector('.entry-name');
+                var playerName = playerNameEl ? playerNameEl.textContent.toLowerCase() : '';
+                var entryName = entryNameEl ? entryNameEl.textContent.toLowerCase() : '';
+                var match = playerName.includes(query) || entryName.includes(query);
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    }
+
+    var sortHeaders = document.querySelectorAll('th.sortable');
+    sortHeaders.forEach(function (header) {
+        header.addEventListener('click', function () {
+            var key = header.getAttribute('data-sort-key');
+            var currentOrder = header.getAttribute('data-order');
+            var newOrder = currentOrder === 'desc' ? 'asc' : 'desc';
+
+            sortHeaders.forEach(function (h) {
+                h.setAttribute('data-order', 'none');
+                h.querySelector('.arrow').textContent = '';
+            });
+            header.setAttribute('data-order', newOrder);
+            header.querySelector('.arrow').textContent = newOrder === 'desc' ? '▼' : '▲';
+
+            var tbody = document.querySelector('#standingsTable tbody');
+            var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+
+            rows.sort(function (a, b) {
+                var aVal = parseInt(a.getAttribute('data-' + key)) || 0;
+                var bVal = parseInt(b.getAttribute('data-' + key)) || 0;
+                return newOrder === 'desc' ? bVal - aVal : aVal - bVal;
+            });
+
+            rows.forEach(function (row) {
+                tbody.appendChild(row);
+            });
+        });
     });
-});
-    </script>
-
+</script>

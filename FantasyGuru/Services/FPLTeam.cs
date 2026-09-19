@@ -81,7 +81,40 @@ namespace FantasyGuru.Services
             Event next = data.events.FirstOrDefault(e => e.is_next);
             return next != null ? next.id : 1;
         }
+        public ManagerHistory GetManagerHistory(int id)
+        {
+            string url = $"https://fantasy.premierleague.com/api/entry/{id}/history/";
+            var response = client.GetStringAsync(url).Result;
+            return JsonConvert.DeserializeObject<ManagerHistory>(response);
+        }
 
+        // Boundary gameweek where chips reset — confirm this still holds for the live season
+        private const int ChipResetGameweek = 19;
+
+        private static readonly List<string> AllChipNames = new List<string>
+{
+    "wildcard", "freehit", "bboost", "3xc"
+};
+
+        public (List<string> available, string activeThisWeek) GetChipStatus(int managerId, int currentGameweek)
+        {
+            ManagerHistory history = GetManagerHistory(managerId);
+
+            bool inSecondHalf = currentGameweek > ChipResetGameweek;
+
+            var usedThisHalf = history.chips
+                .Where(c => inSecondHalf ? c.gameweek > ChipResetGameweek : c.gameweek <= ChipResetGameweek)
+                .ToList();
+
+            // A chip is "active right now" only if it was used in EXACTLY the gameweek being viewed
+            string activeThisWeek = usedThisHalf
+                .FirstOrDefault(c => c.gameweek == currentGameweek)?.name;
+
+            var usedNames = usedThisHalf.Select(c => c.name).ToHashSet();
+            var available = AllChipNames.Where(n => !usedNames.Contains(n)).ToList();
+
+            return (available, activeThisWeek);
+        }
 
 
     }

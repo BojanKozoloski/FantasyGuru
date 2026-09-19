@@ -97,7 +97,7 @@
 
     /* Player information */
     .player-info {
-        height: 35px;
+        height: 32%;
         background: white;
         display: flex;
         flex-direction: column;
@@ -111,6 +111,7 @@
         font-weight: bold;
         font-size: 10px;
         color: black;
+        transform: translateY(5px);
     }
 
 
@@ -118,6 +119,7 @@
     .player-points {
         font-size: 9px;
         color: black;
+        transform: translateY(5px);
     }
 
 
@@ -204,6 +206,7 @@
         z-index: 70;
         cursor: pointer;
     }
+
         .scoreboard:active {
             transform: translateX(-50%) scale(0.95);
         }
@@ -322,6 +325,36 @@
 
     .team-info:active {
         transform: scale(0.95);
+    }
+
+    .chips-left {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+    }
+
+    .chip-pill {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+
+
+    .chip-banner {
+        background: rgba(52, 199, 89, 1);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        justify-content: center;
+        white-space: nowrap;
+        display: inline-block;
     }
 </style>
 
@@ -528,6 +561,32 @@
             GW: @myGWPoints pts
         </span>
     </h3>
+
+    @if (!string.IsNullOrEmpty(Model.MyActiveChip))
+    {
+        <div class="chip-banner">@FormatChipName(Model.MyActiveChip)</div>
+    }
+
+    <div class="chips-left">
+        @foreach (var chip in Model.MyAvailableChips)
+        {
+            <span class="chip-pill">@FormatChipName(chip)</span>
+        }
+    </div>
+
+    @functions {
+        string FormatChipName(string chip)
+        {
+            switch (chip)
+            {
+                case "wildcard": return "WILDCARD";
+                case "freehit": return "FREE HIT";
+                case "bboost": return "BENCH BOOST";
+                case "3xc": return "TRIPLE CAPTAIN";
+                default: return chip.ToUpper();
+            }
+        }
+    }
 </div>
 
 <div class="team-info opponent-info" onclick="toggleTeamPoints(this)">
@@ -542,6 +601,18 @@
             GW: @opponentGWPoints pts
         </span>
     </h3>
+
+    @if (!string.IsNullOrEmpty(Model.OpponentActiveChip))
+    {
+        <div class="chip-banner">@FormatChipName(Model.OpponentActiveChip)</div>
+    }
+
+    <div class="chips-left">
+        @foreach (var chip in Model.OpponentAvailableChips)
+        {
+            <span class="chip-pill">@FormatChipName(chip)</span>
+        }
+    </div>
 </div>
 
 <script>
@@ -600,3 +671,9 @@
         }
     }
 </script>
+
+
+
+
+
+

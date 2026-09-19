@@ -12,5 +12,7 @@ namespace FantasyGuru.Models
         public string player_name { get; set; }
         public int rank { get; set; }
         public int total { get; set; }
+
+        public int event_total { get; set; }
     }
 }

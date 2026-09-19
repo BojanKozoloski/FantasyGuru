@@ -17,5 +17,11 @@ namespace FantasyGuru.Models
 
         public int MyGameweekPoints { get; set; }
         public int OpponentGameweekPoints { get; set; }
+
+
+        public string MyActiveChip { get; set; }         // chip in use THIS gameweek, or null
+        public string OpponentActiveChip { get; set; }
+        public List<string> MyAvailableChips { get; set; }       // chips not yet used this half
+        public List<string> OpponentAvailableChips { get; set; }
     }
 }
