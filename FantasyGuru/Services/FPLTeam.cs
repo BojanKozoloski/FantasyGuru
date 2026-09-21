@@ -116,6 +116,12 @@ namespace FantasyGuru.Services
             return (available, activeThisWeek);
         }
 
+        public int CalculateGameweekPoints(List<Player> team, bool benchBoostActive)
+        {
+            var counting = benchBoostActive ? team : team.Where(p => p.position <= 11);
+            return counting.Sum(p => (p.event_points ?? 0) * p.multiplier);
+        }
+
 
     }
 }
