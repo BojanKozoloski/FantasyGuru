@@ -43,5 +43,4 @@ All core data now comes from the live FPL API — manager profiles, squad picks,
 - [ ] Add suggested transfer/captaincy tips in the Compare view based on a formula.
 - [ ] Track transfers made between gameweeks, and flag when a manager took a points hit for exceeding their free transfers.
 - [ ] Add additional visualizations and charts (points history, rank trend over the season).
-- [ ] Extend the responsive/mobile layout to the LeagueC and Guru views (Squad and Compare already have breakpoints).
 - [ ] Investigate a native mobile app (.NET MAUI) sharing the existing `Models`/`FPLTeam` service layer.
