@@ -34,17 +34,14 @@ FantasyGuru is an ASP.NET MVC (.NET Framework) web app for Fantasy Premier Leagu
 4. Navigate to `/Manager/Guru` with any real FPL manager ID to view a squad (When you make an FPL account you can check the URL when you go to my team the number there represents your account).
 ## Status
  
-This project is built ahead of an active FPL season, so some data can't be pulled live yet:
+All core data now comes from the live FPL API — manager profiles, squad picks, gameweek points, league standings, and chip status.
  
-- :white_check_mark: **Live from the real API:** manager profile info, season total points (which as of writing are all curently 0 :smiley: ), league metadata, full player list (`bootstrap-static`).
-- :construction: **Currently faked with hardcoded test data:** squad picks (`GetSquad`), gameweek points (`GetGameweekDataFake`), league standings rows (`GetLeagueStandingsFake`). These are structured to match the real API's shape so switching over is a small change once the season is live — see the commented-out real endpoint calls in `FPLTeam.cs`.
 ## Roadmap
  
-- [ ] Replace everything that is currently hardcoded with data from the real API.
-- [ ] Make it so that when a player activates league it shows the top 5 players in the selected league based on their ownership percentage. 
-- [ ] Show the fixture difficulty rating for players in the Compare view.
-- [ ] Possibly add tips to the Compare view suggesting which moves to make based on a formula.
-- [ ] Tracking transfers between gameweeks (How many are made and if the manager used to many transfers and was deducted points based off that).
-- [ ] Adding captain and vice-captain information(if both managers have the same player and one of them has captained said player it should show that the player that has him captain is a differential player to the manager)
-- [ ] Add available and used jokers (If bench boost is used put bench players in starting lineup).
-- [ ] Adding additional visualizations and charts.
+- [ ] Show the top 5 players in a selected league by ownership percentage.
+- [ ] Show fixture difficulty rating for players in the Compare view.
+- [ ] Add suggested transfer/captaincy tips in the Compare view based on a formula.
+- [ ] Track transfers made between gameweeks, and flag when a manager took a points hit for exceeding their free transfers.
+- [ ] Add additional visualizations and charts (points history, rank trend over the season).
+- [ ] Extend the responsive/mobile layout to the LeagueC and Guru views (Squad and Compare already have breakpoints).
+- [ ] Investigate a native mobile app (.NET MAUI) sharing the existing `Models`/`FPLTeam` service layer.
