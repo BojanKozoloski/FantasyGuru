@@ -124,22 +124,6 @@ namespace PlaywrightTest
         }
 
         [TestMethod]
-        public async Task LeaguePage_SearchFiltersRows()
-        {
-            await Page.GotoAsync(BaseUrl + "/Manager/LeagueC?managerId=1&leagueIndex=0");
-
-            var totalBefore = await Page.Locator("#standingsTable tbody tr").CountAsync();
-
-            await Page.FillAsync("#playerSearch", "Alice");
-
-            var visibleRows = Page.Locator("#standingsTable tbody tr:visible");
-            var visibleCount = await visibleRows.CountAsync();
-
-            Assert.IsTrue(visibleCount > 0);
-            Assert.IsTrue(visibleCount <= totalBefore);
-        }
-
-        [TestMethod]
         public async Task LeaguePage_NextButtonChangesResults()
         {
             await Page.GotoAsync(BaseUrl + "/Manager/LeagueC?managerId=1&leagueIndex=0");

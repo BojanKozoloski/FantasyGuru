@@ -6,6 +6,79 @@ using System.Linq;
 namespace FantasyGuru.Tests
 {
     [TestClass]
+    public class CaptainDiffTests
+    {
+        [TestMethod]
+        public void SamePlayer_DifferentCaptainStatus_CountsAsUniqueOnBothSides()
+        {
+            var myTeam = new List<Player> { new Player { id = 1, is_captain = true } };
+            var oppTeam = new List<Player> { new Player { id = 1, is_captain = false } };
+
+            var myUnique = myTeam.Where(p => !oppTeam.Any(o => o.id == p.id && o.is_captain == p.is_captain)).ToList();
+            var oppUnique = oppTeam.Where(p => !myTeam.Any(o => o.id == p.id && o.is_captain == p.is_captain)).ToList();
+
+            Assert.AreEqual(1, myUnique.Count);
+            Assert.AreEqual(1, oppUnique.Count);
+        }
+
+        [TestMethod]
+        public void SamePlayer_SameCaptainStatus_ExcludedFromBothSides()
+        {
+            var myTeam = new List<Player> { new Player { id = 1, is_captain = true } };
+            var oppTeam = new List<Player> { new Player { id = 1, is_captain = true } };
+
+            var myUnique = myTeam.Where(p => !oppTeam.Any(o => o.id == p.id && o.is_captain == p.is_captain)).ToList();
+
+            Assert.AreEqual(0, myUnique.Count);
+        }
+    }
+
+    [TestClass]
+    public class GameweekPointsTests
+    {
+        private List<Player> BuildTeam()
+        {
+            var team = new List<Player>();
+            for (int i = 1; i <= 11; i++)
+                team.Add(new Player { id = i, position = i, event_points = 5, multiplier = 1 });
+            for (int i = 12; i <= 15; i++)
+                team.Add(new Player { id = i, position = i, event_points = 5, multiplier = 0 });
+            return team;
+        }
+
+        [TestMethod]
+        public void NormalGameweek_OnlyStartersCount()
+        {
+            var team = BuildTeam();
+            int total = team.Where(p => p.position <= 11).Sum(p => (p.event_points ?? 0) * p.multiplier);
+
+            Assert.AreEqual(55, total); // 11 starters * 5 points * multiplier 1
+        }
+
+        [TestMethod]
+        public void BenchBoostActive_AllFifteenCount()
+        {
+            var team = BuildTeam();
+            foreach (var p in team.Where(p => p.position > 11))
+                p.multiplier = 1; // bench boost gives bench players a real multiplier too
+
+            int total = team.Sum(p => (p.event_points ?? 0) * p.multiplier);
+
+            Assert.AreEqual(75, total); // 15 players * 5 points * multiplier 1
+        }
+
+        [TestMethod]
+        public void CaptainDoublesPoints()
+        {
+            var team = new List<Player> { new Player { id = 1, position = 1, event_points = 10, multiplier = 2, is_captain = true } };
+            int total = team.Sum(p => (p.event_points ?? 0) * p.multiplier);
+
+            Assert.AreEqual(20, total);
+        }
+    }
+
+
+    [TestClass]
     public class CompareLogicTests
     {
         [TestMethod]
