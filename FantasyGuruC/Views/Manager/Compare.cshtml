@@ -1,0 +1,828 @@
+﻿@model FantasyGuruC.Models.Compare
+@{
+    ViewBag.Title = "Compare";
+    Layout = null;
+}
+<style>
+
+    body {
+        background-image: url('/Images/FantasyGurupitch.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .pitch {
+        position: relative;
+        width: 82vw;
+        height: 90vh;
+        margin: 20px auto;
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .pitch-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .team {
+        position: absolute;
+        top: 30px;
+        width: 50%;
+        height: calc(100% - 40px);
+    }
+
+
+    /* Your team is on the LEFT */
+    .my-team {
+        left: 0;
+    }
+
+
+    /* Opponent is on the RIGHT */
+    .opponent-team {
+        right: 0;
+    }
+
+
+    /* Every player */
+    .player {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        width: 80px;
+    }
+
+    .player-card {
+        width: 80px;
+        height: 110px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+
+        .player-card:active {
+            transform: scale(0.95);
+        }
+
+
+    /* Jersey */
+    .jersey {
+        height: 75px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Temporary jersey */
+    .jersey-placeholder {
+        font-size: 35px;
+    }
+
+
+    /* Player information */
+    .player-info {
+        height: 32%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Player name */
+    .player-name {
+        font-weight: bold;
+        font-size: 10px;
+        color: black;
+    }
+
+
+    /* Points */
+    .player-points {
+        font-size: 9px;
+        color: black;
+    }
+
+
+
+    .my-team .position-1 {
+        left: 5%;
+    }
+
+
+    /* DEF */
+    .my-team .position-2 {
+        left: 25%;
+    }
+
+
+    /* MID */
+    .my-team .position-3 {
+        left: 46%;
+    }
+
+
+    /* FWD */
+    .my-team .position-4 {
+        left: 66%;
+    }
+    /* GK */
+    .opponent-team .position-1 {
+        left: 93%;
+    }
+
+
+    /* DEF */
+    .opponent-team .position-2 {
+        left: 73%;
+    }
+
+
+    /* MID */
+    .opponent-team .position-3 {
+        left: 52%;
+    }
+
+
+    /* FWD */
+    .opponent-team .position-4 {
+        left: 32%;
+    }
+
+
+
+    .jersey img {
+        width: 50px;
+        height: auto;
+    }
+
+    .captain {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        background: #00b86b;
+        color: black;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+
+    .scoreboard {
+        position: absolute;
+        top: 20px;
+        left: 49.5%;
+        transform: translateX(-50%);
+        width: 260px;
+        padding: 12px 20px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: white;
+        z-index: 70;
+        cursor: pointer;
+    }
+
+        .scoreboard:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+
+    .scoreboard-title {
+        font-size: 13px;
+        color: #00b86b;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .scoreboard-difference {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .scoreboard-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* You have more points */
+    .scoreboard-difference.positive {
+        color: #00b86b;
+    }
+
+    /* Opponent has more points */
+    .scoreboard-difference.negative {
+        color: #e74c3c;
+    }
+
+    /* Same points */
+    .scoreboard-difference.equal {
+        color: orange;
+    }
+
+
+    .bench {
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px;
+        border-radius: 10px;
+        z-index: 5;
+    }
+
+    .my-bench {
+        left: 1%;
+    }
+
+    .opponent-bench {
+        right: 2%;
+    }
+
+    .bench h4 {
+        color: white;
+        font-size: 11px;
+        margin: 0 0 4px 0;
+        text-align: center;
+    }
+
+    .bench-card {
+        width: 80px;
+        height: 110px;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+
+        .bench-card:active {
+            transform: scale(0.95);
+        }
+
+    .team-info {
+        position: absolute;
+        top: 20px;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 15px 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        color: white;
+        z-index: 10;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+
+    .my-info {
+        left: 30px;
+    }
+
+    .opponent-info {
+        right: 30px;
+    }
+
+    .team-info h2 {
+        margin: 0 0 8px 0;
+        color: #00b86b;
+        font-size: 20px;
+    }
+
+    .team-info h3 {
+        margin: 0;
+        color: white;
+        font-size: 15px;
+    }
+
+    .team-info:active {
+        transform: scale(0.95);
+    }
+
+    .chips-left {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+    }
+
+    .chip-pill {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+
+
+    .chip-banner {
+        background: rgba(52, 199, 89, 1);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        justify-content: center;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+
+
+    .diff-panel {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 12px;
+        padding: 10px 16px;
+        z-index: 30;
+        text-align: center;
+    }
+
+    .diff-tabs {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+
+    .diff-tab {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .diff-tab.active {
+            background: #00b86b;
+            color: black;
+        }
+
+    .diff-cards {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .diff-card {
+        width: 70px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 8px;
+        padding: 6px;
+        text-align: center;
+    }
+
+        .diff-card img {
+            width: 36px;
+            height: auto;
+        }
+
+    .diff-name {
+        display: block;
+        font-size: 9px;
+        font-weight: bold;
+        color: black;
+        margin-top: 2px;
+    }
+
+    .diff-form {
+        display: block;
+        font-size: 8px;
+        color: #333;
+    }
+</style>
+
+
+@{
+    int myTotal = Model.Me.summary_overall_points ?? 0;
+    int oppTotal = Model.Opponent.summary_overall_points ?? 0;
+    int totalDifference = myTotal - oppTotal;
+    int gwDifference = Model.MyGameweekPoints - Model.OpponentGameweekPoints;
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<div class="scoreboard" onclick="toggleScoreboard(this)"
+     data-total-diff="@totalDifference"
+     data-gw-diff="@gwDifference"
+     data-showing="gw">
+
+    <div class="scoreboard-title" id="scoreboardTitle">Gameweek Difference</div>
+
+    <div class="scoreboard-difference @(gwDifference > 0 ? "positive" : gwDifference < 0 ? "negative" : "equal")"
+         id="scoreboardValue">
+        @if (gwDifference > 0)
+        {
+            <span>↑ @gwDifference</span>
+        }
+        else if (gwDifference < 0)
+        {
+            <span>↓ @Math.Abs(gwDifference)</span>
+        }
+        else
+        {
+            <span>0</span>
+        }
+    </div>
+
+    <div class="scoreboard-label">You vs Opponent</div>
+</div>
+
+
+<div class="pitch">
+    <div class="team my-team">
+        @{
+            bool myBenchBoostActive = Model.MyActiveChip == "bboost";
+            var myPlayersToShow = myBenchBoostActive
+                ? Model.MyUniquePlayers
+                : Model.MyUniquePlayers.Where(p => p.position >= 1 && p.position <= 11);
+
+            var myGroups = myPlayersToShow.GroupBy(p => p.element_type);
+        }
+        @foreach (var group in myGroups)
+        {
+            var playersInRow = group.ToList();
+            var count = playersInRow.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var p = playersInRow[i];
+                double topPercent = (104.0 / (count + 1)) * (i + 1);
+                <div class="player position-@p.element_type" style="top:@topPercent%">
+                    <div class="player-card" onclick="togglePoints(this)">
+                        <div class="jersey">
+                            <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+                        </div>
+                        <div class="player-info">
+                            <span class="player-name">@p.web_name</span>
+                            @if (p.is_captain)
+                            {
+                                <span class="captain">C</span>
+                            }
+                            <span class="player-points"
+                                  data-event-points="@(p.event_points * p.multiplier)"
+                                  data-total-points="@p.total_points">
+                                @(p.event_points * p.multiplier) pts
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+    <div class="team opponent-team">
+
+        @{
+            bool oppBenchBoostActive = Model.OpponentActiveChip == "bboost";
+
+            var oppPlayersToShow = oppBenchBoostActive
+                ? Model.OpponentUniquePlayers
+                : Model.OpponentUniquePlayers
+                    .Where(p => p.position >= 1 && p.position <= 11);
+
+            var oppGroups = oppPlayersToShow.GroupBy(p => p.element_type);
+        }
+
+        @foreach (var group in oppGroups)
+        {
+            var playersInRow = group.ToList();
+            var count = playersInRow.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var p = playersInRow[i];
+                double topPercent = (104.0 / (count + 1)) * (i + 1);
+
+                <div class="player position-@p.element_type"
+                     style="top:@topPercent%">
+
+                    <div class="player-card" onclick="togglePoints(this)">
+
+                        <div class="jersey">
+                            <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png"
+                                 alt="@p.web_name" />
+                        </div>
+
+                        <div class="player-info">
+
+                            <span class="player-name">
+                                @p.web_name
+                            </span>
+
+                            @if (p.is_captain)
+                            {
+                                <span class="captain">C</span>
+                            }
+
+                            <span class="player-points"
+                                  data-event-points="@(p.event_points * p.multiplier)"
+                                  data-total-points="@p.total_points">
+
+                                @(p.event_points * p.multiplier) pts
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
+
+
+<div class="bench opponent-bench">
+    <h4>Bench</h4>
+    @{
+        var oppBench = Model.OpponentUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
+                                                   .OrderBy(p => p.element_type == 1 ? 0 : 1)
+                                                   .ThenBy(p => p.position);
+    }
+    @foreach (var p in oppBench)
+    {
+        <div class="bench-card" onclick="togglePoints(this)">
+            <div class="jersey">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+            </div>
+            <div class="player-info">
+                <span class="player-name">@p.web_name</span>
+                <span class="player-points" data-event-points="@p.event_points" data-total-points="@p.total_points">
+                    @p.event_points pts
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="bench my-bench">
+    <h4>Bench</h4>
+    @{
+        var myBench = Model.MyUniquePlayers.Where(p => p.position >= 12 && p.position <= 15)
+                                            .OrderBy(p => p.element_type == 1 ? 0 : 1)
+                                            .ThenBy(p => p.position);
+    }
+    @foreach (var p in myBench)
+    {
+        <div class="bench-card" onclick="togglePoints(this)">
+            <div class="jersey">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+            </div>
+            <div class="player-info">
+                <span class="player-name">@p.web_name</span>
+                <span class="player-points" data-event-points="@p.event_points" data-total-points="@p.total_points">
+                    @p.event_points pts
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+
+@{
+    int myGWPoints = Model.MyGameweekPoints;
+    int opponentGWPoints = Model.OpponentGameweekPoints;
+
+    int myTotalPoints = Model.Me.summary_overall_points ?? 0;
+    int opponentTotalPoints = Model.Opponent.summary_overall_points ?? 0;
+}
+
+<div class="team-info my-info" onclick="toggleTeamPoints(this)">
+    <h2>
+        @Model.Me.player_first_name @Model.Me.player_last_name
+    </h2>
+
+    <h3>
+        <span class="team-points"
+              data-gw-points="@myGWPoints"
+              data-total-points="@myTotalPoints">
+            GW: @myGWPoints pts
+        </span>
+    </h3>
+
+    @if (!string.IsNullOrEmpty(Model.MyActiveChip))
+    {
+        <div class="chip-banner">@FormatChipName(Model.MyActiveChip)</div>
+    }
+
+    <div class="chips-left">
+        @foreach (var chip in Model.MyAvailableChips)
+        {
+            <span class="chip-pill">@FormatChipName(chip)</span>
+        }
+    </div>
+
+@functions {
+    string FormatChipName(string chip)
+    {
+        switch (chip)
+        {
+            case "wildcard": return "WILDCARD";
+            case "freehit": return "FREE HIT";
+            case "bboost": return "BENCH BOOST";
+            case "3xc": return "TRIPLE CAPTAIN";
+            default: return chip.ToUpper();
+        }
+    }
+}
+</div>
+
+<div class="team-info opponent-info" onclick="toggleTeamPoints(this)">
+    <h2>
+        @Model.Opponent.player_first_name @Model.Opponent.player_last_name
+    </h2>
+
+    <h3>
+        <span class="team-points"
+              data-gw-points="@opponentGWPoints"
+              data-total-points="@opponentTotalPoints">
+            GW: @opponentGWPoints pts
+        </span>
+    </h3>
+
+    @if (!string.IsNullOrEmpty(Model.OpponentActiveChip))
+    {
+        <div class="chip-banner">@FormatChipName(Model.OpponentActiveChip)</div>
+    }
+
+    <div class="chips-left">
+        @foreach (var chip in Model.OpponentAvailableChips)
+        {
+            <span class="chip-pill">@FormatChipName(chip)</span>
+        }
+    </div>
+</div>
+
+
+
+
+
+<div class="diff-panel">
+    <div class="diff-tabs">
+        <button class="diff-tab active" data-position="gk" onclick="showDifferentials(this, 'gk')">GK</button>
+        <button class="diff-tab" data-position="def" onclick="showDifferentials(this, 'def')">DEF</button>
+        <button class="diff-tab" data-position="mid" onclick="showDifferentials(this, 'mid')">MID</button>
+        <button class="diff-tab" data-position="fwd" onclick="showDifferentials(this, 'fwd')">FWD</button>
+    </div>
+
+    <div class="diff-cards" id="diff-gk">
+        @foreach (var p in Model.DifferentialGK)
+        {
+            <div class="diff-card">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+                <span class="diff-name">@p.web_name</span>
+                <span class="diff-form">Form: @p.form</span>
+            </div>
+        }
+    </div>
+
+    <div class="diff-cards" id="diff-def" style="display:none">
+        @foreach (var p in Model.DifferentialDEF)
+        {
+            <div class="diff-card">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+                <span class="diff-name">@p.web_name</span>
+                <span class="diff-form">Form: @p.form</span>
+            </div>
+        }
+    </div>
+
+    <div class="diff-cards" id="diff-mid" style="display:none">
+        @foreach (var p in Model.DifferentialMID)
+        {
+            <div class="diff-card">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+                <span class="diff-name">@p.web_name</span>
+                <span class="diff-form">Form: @p.form</span>
+            </div>
+        }
+    </div>
+
+    <div class="diff-cards" id="diff-fwd" style="display:none">
+        @foreach (var p in Model.DifferentialFWD)
+        {
+            <div class="diff-card">
+                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_@p.team_code-66.png" alt="@p.web_name" />
+                <span class="diff-name">@p.web_name</span>
+                <span class="diff-form">Form: @p.form</span>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function togglePoints(card) {
+        var points = card.querySelector(".player-points");
+
+        var eventPoints = points.getAttribute("data-event-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = eventPoints + " pts";
+            points.dataset.showing = "event";
+        }
+        else {
+            points.textContent = totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+    }
+
+    function toggleScoreboard(card) {
+        var valueEl = card.querySelector("#scoreboardValue");
+        var titleEl = card.querySelector("#scoreboardTitle");
+
+        var totalDiff = parseInt(card.getAttribute("data-total-diff"));
+        var gwDiff = parseInt(card.getAttribute("data-gw-diff"));
+
+        var showingTotal = card.getAttribute("data-showing") === "total";
+        var diff = showingTotal ? gwDiff : totalDiff;
+
+        titleEl.textContent = showingTotal ? "Gameweek Difference" : "Points Difference";
+        card.setAttribute("data-showing", showingTotal ? "gw" : "total");
+
+        valueEl.className = "scoreboard-difference " + (diff > 0 ? "positive" : diff < 0 ? "negative" : "equal");
+
+        if (diff > 0) {
+            valueEl.innerHTML = "<span>↑ " + diff + "</span>";
+        } else if (diff < 0) {
+            valueEl.innerHTML = "<span>↓ " + Math.abs(diff) + "</span>";
+        } else {
+            valueEl.innerHTML = "<span>0</span>";
+        }
+    }
+    function toggleTeamPoints(box) {
+        var points = box.querySelector(".team-points");
+
+        var gwPoints = points.getAttribute("data-gw-points");
+        var totalPoints = points.getAttribute("data-total-points");
+
+        if (points.dataset.showing === "total") {
+            points.textContent = "GW: " + gwPoints + " pts";
+            points.dataset.showing = "gw";
+        }
+        else {
+            points.textContent = "Total: " + totalPoints + " pts";
+            points.dataset.showing = "total";
+        }
+    }
+
+        function showDifferentials(button, position) {
+        document.querySelectorAll('.diff-cards').forEach(function (panel) {
+            panel.style.display = 'none';
+        });
+        document.getElementById('diff-' + position).style.display = 'flex';
+
+        document.querySelectorAll('.diff-tab').forEach(function (tab) {
+            tab.classList.remove('active');
+        });
+        button.classList.add('active');
+    }
+</script>
+
+
+
+
+
+
