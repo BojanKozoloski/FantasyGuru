@@ -33,31 +33,7 @@ The project was migrated from .NET Framework so it can be containerised with Doc
 
 One migration gotcha worth remembering: `System.Text.Json` is case-sensitive by default and Newtonsoft was not. Every deserialization call in `FPLTeam.cs` passes a shared `JsonSerializerOptions { PropertyNameCaseInsensitive = true }` so properties like `League.Id` and `League.Name` match the API's lowercase `id` and `name`. Property types must also match the JSON exactly. For example, `entry_rank` is a number, so it is declared `int?`, not `string`.
 
-## Project structure
 
-```
-FantasyGuruC/
-├── Controllers/
-│   └── ManagerController.cs      # Guru, Squad, LeagueC, Compare actions
-├── Services/
-│   └── FPLTeam.cs                 # All FPL API calls and the logic built on them
-├── Models/
-│   ├── Player.cs
-│   ├── Manager.cs
-│   ├── League.cs / Leagues.cs
-│   ├── LeagueStandings.cs / StandingsTable.cs / StandingsResult.cs
-│   ├── Compare.cs
-│   ├── Pick.cs / PickR.cs / EntryHistory.cs
-│   ├── Chip.cs / ManagerHistory.cs
-│   ├── Event.cs
-│   └── Bootstrap.cs
-└── Views/
-    └── Manager/
-        ├── Guru.cshtml
-        ├── Squad.cshtml
-        ├── LeagueC.cshtml
-        └── Compare.cshtml
-```
 
 ## What `FPLTeam` does
 
