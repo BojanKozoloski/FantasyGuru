@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|c:\\users\\bojan\\source\\repos\\fantasyguruc\\fantasyguruc\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|solutionrelative:fantasyguruc\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|c:\\users\\bojan\\source\\repos\\fantasyguruc\\fantasyguruc\\.dockerignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|solutionrelative:fantasyguruc\\.dockerignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|c:\\users\\bojan\\source\\repos\\fantasyguruc\\fantasyguruc\\views\\manager\\guru.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|solutionrelative:fantasyguruc\\views\\manager\\guru.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -38,11 +46,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": ".dockerignore",
+              "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\.dockerignore",
+              "RelativeDocumentMoniker": "FantasyGuruC\\.dockerignore",
+              "ToolTip": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\.dockerignore",
+              "RelativeToolTip": "FantasyGuruC\\.dockerignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-11-11T16:22:25.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Dockerfile",
+              "RelativeDocumentMoniker": "FantasyGuruC\\Dockerfile",
+              "ToolTip": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Dockerfile",
+              "RelativeToolTip": "FantasyGuruC\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-11-11T15:31:55.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "LeagueC.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
@@ -50,12 +84,11 @@
               "RelativeToolTip": "FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
               "ViewState": "AgIAAMgAAAAAAAAAAAAAAMwAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-11-10T15:05:54.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-10T15:05:54.148Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "League.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Models\\League.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Models\\League.cs",
@@ -67,7 +100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "FPLTeam.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Services\\FPLTeam.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Services\\FPLTeam.cs",
@@ -79,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Manager.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Models\\Manager.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Models\\Manager.cs",
@@ -91,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Guru.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\Guru.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\Guru.cshtml",
@@ -104,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Compare.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\Compare.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\Compare.cshtml",
@@ -116,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ManagerController.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Controllers\\ManagerController.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Controllers\\ManagerController.cs",

@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|c:\\users\\bojan\\source\\repos\\fantasyguruc\\fantasyguruc\\fantasyguruc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|solutionrelative:fantasyguruc\\fantasyguruc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|c:\\users\\bojan\\source\\repos\\fantasyguruc\\fantasyguruc\\views\\manager\\guru.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{6CA28792-44D9-388F-C7F1-6D88307D9C69}|FantasyGuruC\\FantasyGuruC.csproj|solutionrelative:fantasyguruc\\views\\manager\\guru.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -38,11 +42,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "FantasyGuruC",
+              "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\FantasyGuruC.csproj",
+              "RelativeDocumentMoniker": "FantasyGuruC\\FantasyGuruC.csproj",
+              "ToolTip": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\FantasyGuruC.csproj",
+              "RelativeToolTip": "FantasyGuruC\\FantasyGuruC.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-11-11T15:39:52.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "LeagueC.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
@@ -50,12 +67,11 @@
               "RelativeToolTip": "FantasyGuruC\\Views\\Manager\\LeagueC.cshtml",
               "ViewState": "AgIAAMgAAAAAAAAAAAAAAMwAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-11-10T15:05:54.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-10T15:05:54.148Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "League.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Models\\League.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Models\\League.cs",
@@ -67,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "FPLTeam.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Services\\FPLTeam.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Services\\FPLTeam.cs",
@@ -79,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Manager.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Models\\Manager.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Models\\Manager.cs",
@@ -91,20 +107,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Guru.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\Guru.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\Guru.cshtml",
               "ToolTip": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\Guru.cshtml",
               "RelativeToolTip": "FantasyGuruC\\Views\\Manager\\Guru.cshtml",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAAAGQAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-11-10T14:28:00.446Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Compare.cshtml",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Views\\Manager\\Compare.cshtml",
               "RelativeDocumentMoniker": "FantasyGuruC\\Views\\Manager\\Compare.cshtml",
@@ -116,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ManagerController.cs",
               "DocumentMoniker": "C:\\Users\\Bojan\\source\\repos\\FantasyGuruC\\FantasyGuruC\\Controllers\\ManagerController.cs",
               "RelativeDocumentMoniker": "FantasyGuruC\\Controllers\\ManagerController.cs",

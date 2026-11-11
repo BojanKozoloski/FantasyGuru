@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FantasyGuruC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+000e52c8bccf58b98a9411290c374eb90bdd8c04")]
 [assembly: System.Reflection.AssemblyProductAttribute("FantasyGuruC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FantasyGuruC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
