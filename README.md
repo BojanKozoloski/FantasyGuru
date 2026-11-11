@@ -22,6 +22,9 @@ FantasyGuru is an ASP.NET Core MVC web app for Fantasy Premier League (FPL) mana
 ## Tech stack
 
 - ASP.NET Core MVC (migrated from ASP.NET MVC on .NET Framework)
+- Docker for application containerization
+- Dockerfile for building and running the application in a container
+- .dockerignore to exclude unnecessary files from the Docker build context
 - `System.Text.Json` for API deserialization, with case-insensitive property matching
 - Razor views (`.cshtml`)
 - Vanilla JS/CSS for interactivity (no frontend framework)
@@ -38,11 +41,43 @@ FantasyGuru is an ASP.NET Core MVC web app for Fantasy Premier League (FPL) mana
 | `GET /api/leagues-classic/{id}/standings/?page_standings={n}` | Paginated league leaderboard |
 
 ## Getting started
-
-1. Clone the repo and open the solution in Visual Studio.
-2. Make sure the .NET SDK matching the project's target framework is installed.
-3. Restore packages and run (`F5`, or `dotnet run` from the project folder).
-4. Go to `/Manager/Guru` and enter a real FPL manager ID. Once you've made an FPL account, your manager ID is the number in the URL when you open "My Team".
+ 
+### Prerequisites
+ 
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running (for the Docker route).
+- Or the .NET SDK matching the project's target framework (for the local route).
+### Running with Docker
+ 
+1. Clone the repository:
+```bash
+   git clone https://github.com/BojanKozoloski/FantasyGuru.git
+   cd FantasyGuruC
+```
+ 
+2. Build the Docker image:
+```bash
+   docker build -t fantasyguru .
+```
+ 
+3. Run the container:
+```bash
+   docker run -d -p 8080:8080 --name fantasyguru fantasyguru
+```
+ 
+4. Open your browser and go to `http://localhost:8080`.
+5. Go to `/Manager/Guru` and enter a real FPL manager ID.
+### Running locally with Visual Studio
+ 
+Alternatively, you can run the application without Docker:
+ 
+1. Install the .NET SDK matching the project's target framework.
+2. Clone the repository and open the solution in Visual Studio.
+3. Restore NuGet packages.
+4. Run the application using Visual Studio (`F5`) or `dotnet run` from the project folder.
+5. Navigate to `/Manager/Guru`.
+### Finding your manager ID
+ 
+Once you've made an FPL account, your manager ID is the number in the URL when you open "My Team".
 
 ## Testing
 
@@ -58,10 +93,8 @@ Releases are tagged on GitHub using [Semantic Versioning](https://semver.org/) (
 
 ## Roadmap
 
-- [ ] Add a Dockerfile and run the app in a container.
 - [ ] Show the top 5 players in a selected league by ownership percentage.
 - [ ] Show fixture difficulty rating for players in the Compare view.
-- [ ] Add suggested transfer and captaincy tips in the Compare view based on a formula.
 - [ ] Track transfers made between gameweeks, and flag points hits.
 - [ ] Add additional visualizations and charts (points history, rank trend).
 - [ ] Extend the responsive/mobile layout across all views.
