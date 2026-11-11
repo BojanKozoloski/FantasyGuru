@@ -5,8 +5,8 @@ FantasyGuru is an ASP.NET Core MVC web app for Fantasy Premier League (FPL) mana
 ## Features
 
 - **Guru view**: the starting page where you enter your FPL manager ID.
-- **Squad view**: your starting XI laid out on a pitch by position (GK/DEF/MID/FWD), with your bench in a separate strip. The current gameweek is detected automatically. Click a player card to toggle between gameweek points and total points, click your info box to toggle gameweek and total points for the whole squad, and use the league dropdown to jump to any classic league you're in. Captains are badged, and captain multipliers are applied to gameweek points.
-- **LeagueC view**: a league leaderboard showing 50 managers per page, with Next/Previous navigation.
+- **Squad view**: your starting XI laid out on a pitch by position (GK/DEF/MID/FWD), with your bench in a separate strip. The current gameweek is detected automatically. Click a player card to toggle between gameweek points and total points, click your info box to toggle gameweek and total points for the whole squad, and use the league dropdown to jump to any league you're in. Captains are badged, and captain multipliers are applied to gameweek points.
+- **LeagueC view**: a league leaderboard with Next/Previous navigation.
   - The GW and Total columns show each manager's points **relative to you** (+ or -), rather than raw points. Colour shows who is ahead.
   - Sorted by total points by default, with click-to-resort on either column.
   - A search bar filters by manager or team name on the current page.
@@ -16,8 +16,8 @@ FantasyGuru is an ASP.NET Core MVC web app for Fantasy Premier League (FPL) mana
 - **Compare view**: shows the players that differ between your squad and an opponent's, on opposite halves of the pitch (starters and bench separately).
   - Captaincy is part of the diff, so the same player captained by only one of you still shows up as a differential.
   - A clickable scoreboard toggles between the gameweek and total points difference (gameweek is shown first).
-  - Active and available chips (Wildcard, Free Hit, Bench Boost, Triple Captain) are shown for both managers. When Bench Boost is active, all 15 players are shown on the pitch.
-  - A **differential picker** at the bottom centre suggests the top 3 players per position (GK / DEF / MID / FWD) that neither manager owns, ranked by FPL's `form` stat. Switch positions with the tabs.
+  - Active and available chips (Wildcard, Free Hit, Bench Boost, Triple Captain) are shown for both managers. 
+  - A **differential picker** at the bottom centre suggests the top 3 players per position (GK / DEF / MID / FWD) that neither manager owns, ranked by FPL's `form` stat.
 
 ## Tech stack
 
@@ -26,27 +26,6 @@ FantasyGuru is an ASP.NET Core MVC web app for Fantasy Premier League (FPL) mana
 - Razor views (`.cshtml`)
 - Vanilla JS/CSS for interactivity (no frontend framework)
 - [Fantasy Premier League API](https://fantasy.premierleague.com/api/) as the data source
-
-### Why .NET Core
-
-The project was migrated from .NET Framework so it can be containerised with Docker using standard Linux images. Framework projects need Windows containers, which are much heavier and harder to work with.
-
-One migration gotcha worth remembering: `System.Text.Json` is case-sensitive by default and Newtonsoft was not. Every deserialization call in `FPLTeam.cs` passes a shared `JsonSerializerOptions { PropertyNameCaseInsensitive = true }` so properties like `League.Id` and `League.Name` match the API's lowercase `id` and `name`. Property types must also match the JSON exactly. For example, `entry_rank` is a number, so it is declared `int?`, not `string`.
-
-
-
-## What `FPLTeam` does
-
-| Method | Purpose |
-|---|---|
-| `GetManager` | Manager profile, season points, ranks, and leagues |
-| `GetCurrentGameweek` | Finds the live gameweek from `bootstrap-static` (falls back to the next gameweek pre-season) |
-| `GetSquad` | Builds a manager's 15 players for a gameweek, including position, captain flag, and multiplier |
-| `CalculateGameweekPoints` | Sums `event_points * multiplier` for the starting 11 (all 15 under Bench Boost) |
-| `GetChipStatus` | Works out which chips are available and which is active this gameweek |
-| `GetLeagueStandings` | One raw page of a league leaderboard |
-| `GetLeagueStandingsPaged` | Builds a 50-row page, stitching several API pages together if FPL returns fewer than 50 per request |
-| `GetAllPlayers` / `GetTopDifferentials` | Fetches the full player pool once, then filters to players neither manager owns and ranks them by form |
 
 ## Key FPL API endpoints used
 
@@ -76,14 +55,6 @@ Note: these suites were written before the .NET Core migration, so their project
 ## Versioning
 
 Releases are tagged on GitHub using [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`). The .NET Core migration is a good candidate for a major version bump. See the repo's **Releases** page for what shipped in each version.
-
-## Known limitations
-
-- **Chip reset boundary:** the second set of chips is assumed to start after Gameweek 19 (the 2025/26 rule). It is a single constant in `FPLTeam.cs`, so re-check it each season.
-- **Gameweek points are computed, not read from FPL:** this avoids a second API call per manager, but it doesn't subtract transfer point hits.
-- **League sorting is per page:** sorting and searching only apply to the 50 managers currently loaded, because FPL only exposes leagues a page at a time. On huge leagues like Overall, fetching everything isn't practical. Your own rank comes from your profile data instead.
-- **League page speed:** if FPL returns fewer than 50 entries per request, building one 50-row page takes several API calls.
-- **`entry_rank` can be null** for very large leagues, in which case the pinned row omits your rank.
 
 ## Roadmap
 
